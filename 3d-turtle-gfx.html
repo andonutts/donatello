@@ -54,9 +54,9 @@
                 var turnAngle;
                 var stepSize;
 
-                iterations = 2;
+                iterations = 3;
                 turnAngle = 90;
-                stepSize = 5;
+                stepSize = 1;
 
                 command = "A";
                 ruleset["A"] = "B-F+CFC+F-D&F^D-F+&&CFC+F+B//";
@@ -66,7 +66,8 @@
 
                 var turters = new Turtle(stepSize, turnAngle);
 
-                drawLSystem(turters, iterations, command, ruleset);
+                var commandExp = processLSystem(iterations, command, ruleset);
+                drawLSystem(turters, commandExp);
             }
 
             function animate() {
@@ -195,15 +196,68 @@
                 };
 
                 this.popState = function() {
-                    var turtleState = this.stateStack.pop(turtleState);
+                    var turtleState = this.stateStack.pop();
                     this.position = turtleState["position"];
                     this.hlu = turtleState["hlu"];
                 };
             }
 
-            function drawLSystem(turtle, iterations, command, ruleset) {
-
+            function processLSystem(iterations, command, ruleset) {
+                var re = /[\+\-\&\^\\\/\|\[\]]/g;
+                for(var i = 0; i < iterations; i++) {
+                    var buffer = "";
+                    for(var j = 0; j < command.length; j++) {
+                        var symbol = command.charAt(j);
+                        if(!re.test(symbol) && ruleset[symbol] != null) {
+                            buffer += ruleset[symbol];
+                        } else {
+                            buffer += symbol;
+                        }
+                    }
+                    command = buffer;
+                }
+                return command;
             }
+
+            function drawLSystem(turtle, command) {
+                for(var i = 0; i < command.length; i++) {
+                    switch(command.charAt(i)) {
+                        case "F":
+                            turtle.moveForward();
+                            break;
+                        case "+":
+                            turtle.turnLeft();
+                            break;
+                        case "-":
+                            turtle.turnRight();
+                            break;
+                        case "&":
+                            turtle.pitchDown();
+                            break;
+                        case "^":
+                            turtle.pitchUp();
+                            break;
+                        case "\\":
+                            turtle.rollLeft();
+                            break;
+                        case "/":
+                            turtle.rollRight();
+                            break;
+                        case "|":
+                            turtle.turnAround();
+                            break;
+                        case "[":
+                            turtle.pushState();
+                            break;
+                        case "]":
+                            turtle.popState();
+                            break;
+                        default:
+
+                    }
+                }
+            }
+
         </script>
     </body>
 </html>
