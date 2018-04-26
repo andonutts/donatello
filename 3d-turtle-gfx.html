@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>sketch02</title>
+		<style>
+			canvas {
+                margin: auto;
+                display: block;
+            }
+		</style>
+	</head>
+	<body>
+        <script src="js/three.js"></script>
+        <script src="js/controls/OrbitControls.js"></script>
+        <script src="js/Detector.js"></script>
+        <script src="js/MV.js"></script>
+		<script>
+            if ( !Detector.webgl ) {
+                Detector.addGetWebGLMessage();
+            }
+
+            var renderer, scene, camera, controls;
+
+            init();
+            addGeometry();
+            animate();
+
+            function init() {
+                var canvasWidth = 800;
+                var canvasHeight = 512;
+
+                renderer = new THREE.WebGLRenderer( { antialias: true } );
+                renderer.setSize( canvasWidth, canvasHeight );
+                renderer.setClearColor( 0xf2f2f2, 1.0 );
+                document.body.appendChild( renderer.domElement );
+
+				camera = new THREE.PerspectiveCamera( 45, canvasWidth / canvasHeight, 1, 1000 );
+                camera.position.set( 50, 50, 50 );
+                camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
+
+                scene = new THREE.Scene();
+                
+                controls = new THREE.OrbitControls( camera, renderer.domElement );
+                controls.enablePan = false;
+				controls.minDistance = 10;
+				controls.maxDistance = 500;
+            }
+
+            function addGeometry() {
+                var turters = new Turtle(10, 90);
+                
+                for(var i = 0; i < 3; i++) {
+                    turters.moveForward();
+                    turters.turnLeft();
+                    turters.moveForward();
+                    turters.turnLeft();
+                    turters.moveForward();
+                    turters.turnLeft();
+                    turters.moveForward();
+    
+                    turters.pitchDown();
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame( animate );
+                renderer.render( scene, camera );
+            }
+
+            function Turtle(stepSize, turnAngle) {
+                this.stepSize = stepSize;
+                this.turnAngle = turnAngle * Math.PI / 180;
+                this.stateStack = [];
+
+                // initialize at origin
+                this.position = vec3( 0, 0, 0 );
+
+                // initialize heading in the +y direction
+                this.hlu = mat3(
+                    0, 1, 0,
+                    1, 0, 0,
+                    0, 0, -1
+                );
+
+                this.moveForward = function() {
+                    var h = vec3(
+                        this.hlu[0][0],
+                        this.hlu[1][0],
+                        this.hlu[2][0]
+                    );
+
+                    var material = new THREE.LineBasicMaterial( { color: 0x4c4c4c } );
+                    var geometry = new THREE.Geometry();
+
+                    geometry.vertices.push(new THREE.Vector3(
+                        this.position[0],
+                        this.position[1],
+                        this.position[2]
+                    ));
+
+                    this.position = add(this.position, scale(stepSize, h));
+
+                    geometry.vertices.push(new THREE.Vector3(
+                        this.position[0],
+                        this.position[1],
+                        this.position[2]
+                    ));
+
+                    var line = new THREE.Line( geometry, material );
+                    scene.add( line );
+                }
+
+                this.turnLeft = function() {
+                    var d = -this.turnAngle;
+                    var rot = mat3(
+                        Math.cos(d), Math.sin(d), 0,
+                        -Math.sin(d), Math.cos(d), 0,
+                        0, 0, 1
+                    );
+                    this.hlu = mult(this.hlu, rot);
+                };
+
+                this.turnRight = function() {
+                    var d =  this.turnAngle;
+                    var rot = mat3(
+                        Math.cos(d), Math.sin(d), 0,
+                        -Math.sin(d), Math.cos(d), 0,
+                        0, 0, 1
+                    );
+                    this.hlu = mult(this.hlu, rot);
+                };
+
+                this.pitchDown = function() {
+                    var d = -this.turnAngle;
+                    var rot = mat3(
+                        Math.cos(d), 0, -Math.sin(d),
+                        0, 1, 0,
+                        Math.sin(d), 0, Math.cos(d)
+                    );
+                    this.hlu = mult(this.hlu, rot);
+                };
+
+                this.pitchUp = function() {
+                    var d = this.turnAngle;
+                    var rot = mat3(
+                        Math.cos(d), 0, -Math.sin(d),
+                        0, 1, 0,
+                        Math.sin(d), 0, Math.cos(d)
+                    );
+                    this.hlu = mult(this.hlu, rot);
+                };
+
+                this.rollLeft = function() {
+                    var d = -this.turnAngle;
+                    var rot = mat3(
+                        1, 0, 0,
+                        0, Math.cos(d), -Math.sin(d),
+                        0, Math.sin(d), Math.cos(d)
+                    );
+                    this.hlu = mult(this.hlu, rot);
+                };
+
+                this.rollRight = function() {
+                    var d = this.turnAngle;
+                    var rot = mat3(
+                        1, 0, 0,
+                        0, Math.cos(d), -Math.sin(d),
+                        0, Math.sin(d), Math.cos(d)
+                    );
+                    this.hlu = mult(this.hlu, rot);
+                };
+
+                this.turnAround = function() {
+                    var rot = mat3(
+                        -1, 0, 0,
+                        0, -1, 0,
+                        0, 0, 1
+                    );
+                    this.hlu = mult(this.hlu, rot);
+                }
+
+                this.pushState = function() {
+                    var turtleState = {
+                        position : this.position,
+                        hlu : this.hlu
+                    };
+                    this.stateStack.push(turtleState);
+                };
+
+                this.popState = function() {
+                    var turtleState = this.stateStack.pop(turtleState);
+                    this.position = turtleState["position"];
+                    this.hlu = turtleState["hlu"];
+                };
+            }
+        </script>
+	</body>
+</html>
