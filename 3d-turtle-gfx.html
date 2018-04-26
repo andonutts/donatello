@@ -4,10 +4,6 @@
         <meta charset=utf-8>
         <title>3D Turtle Graphics Renderer</title>
         <style>
-            canvas {
-                margin: auto;
-                display: block;
-            }
         </style>
     </head>
     <body>
@@ -56,7 +52,7 @@
 
                 iterations = 3;
                 turnAngle = 90;
-                stepSize = 1;
+                stepSize = 3;
 
                 command = "A";
                 ruleset["A"] = "B-F+CFC+F-D&F^D-F+&&CFC+F+B//";
@@ -66,8 +62,8 @@
 
                 var turters = new Turtle(stepSize, turnAngle);
 
-                var commandExp = processLSystem(iterations, command, ruleset);
-                drawLSystem(turters, commandExp);
+                var commandEx = processLSystem(iterations, command, ruleset);
+                drawLSystem(turters, commandEx);
             }
 
             function animate() {
@@ -258,6 +254,40 @@
                 }
             }
 
+            function addRule() {
+                var ruleTable = document.getElementById("rule-table");
+                var row = ruleTable.insertRow();
+                var symbolCell = row.insertCell();
+                var ruleCell = row.insertCell();
+                var deleteCell = row.insertCell();
+
+                symbolCell.innerHTML = '<input type="text" class="symbol-input" />';
+                ruleCell.innerHTML = '<input type="text" class="rule-input" />';
+                deleteCell.innerHTML = '<button onclick="deleteRule(this)">Delete Rule</button>'
+            }
+
+            function deleteRule(r) {
+                var i = r.parentNode.parentNode.rowIndex;
+                document.getElementById("rule-table").deleteRow(i);
+            }
+
         </script>
+        <div>
+            <label><span>n</span><input type="text" id="order" /></label><br />
+            <label><span>&delta;</span><input type="text" id="turn-angle" /></label><br />
+            <label><span>Base axiom</span><input type="text" id="base-axiom" /></label><br />
+            <table id="rule-table">
+                <tr>
+                    <th>Symbol</th>
+                    <th>Rule</th>
+                </tr>
+                <tr>
+                    <td><input type="text" class="symbol-input" /></td>
+                    <td><input type="text" class="rule-input" /></td>
+                </tr>
+            </table>
+            <button onclick="addRule()">Add New Rule</button><br />
+            <button onclick="generateModel()">Generate</button>
+        </div>
     </body>
 </html>
