@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset=utf-8>
-        <title>sketch02</title>
+        <title>3D Turtle Graphics Renderer</title>
         <style>
             canvas {
                 margin: auto;
@@ -48,19 +48,26 @@
             }
 
             function addGeometry() {
-                var turters = new Turtle(10, 90);
-                
-                for(var i = 0; i < 3; i++) {
-                    turters.moveForward();
-                    turters.turnLeft();
-                    turters.moveForward();
-                    turters.turnLeft();
-                    turters.moveForward();
-                    turters.turnLeft();
-                    turters.moveForward();
-    
-                    turters.pitchDown();
-                }
+                var command;
+                var ruleset = [];
+                var iterations;
+                var turnAngle;
+                var stepSize;
+
+                iterations = 3;
+                turnAngle = 90;
+                stepSize = 1;
+
+                command = "A";
+                ruleset["A"] = "B-F+CFC+F-D&F^D-F+&&CFC+F+B//";
+                ruleset["B"] = "A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//";
+                ruleset["C"] = "|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//";
+                ruleset["D"] = "|CFB-F+B|FA&F^A&&FB-F+B|FC//";
+
+                var turters = new Turtle(stepSize, turnAngle);
+
+                var commandExp = processLSystem(iterations, command, ruleset);
+                drawLSystem(turters, commandExp);
             }
 
             function animate() {
@@ -189,11 +196,68 @@
                 };
 
                 this.popState = function() {
-                    var turtleState = this.stateStack.pop(turtleState);
+                    var turtleState = this.stateStack.pop();
                     this.position = turtleState["position"];
                     this.hlu = turtleState["hlu"];
                 };
             }
+
+            function processLSystem(iterations, command, ruleset) {
+                var re = /[\+\-\&\^\\\/\|\[\]]/g;
+                for(var i = 0; i < iterations; i++) {
+                    var buffer = "";
+                    for(var j = 0; j < command.length; j++) {
+                        var symbol = command.charAt(j);
+                        if(!re.test(symbol) && ruleset[symbol] != null) {
+                            buffer += ruleset[symbol];
+                        } else {
+                            buffer += symbol;
+                        }
+                    }
+                    command = buffer;
+                }
+                return command;
+            }
+
+            function drawLSystem(turtle, command) {
+                for(var i = 0; i < command.length; i++) {
+                    switch(command.charAt(i)) {
+                        case "F":
+                            turtle.moveForward();
+                            break;
+                        case "+":
+                            turtle.turnLeft();
+                            break;
+                        case "-":
+                            turtle.turnRight();
+                            break;
+                        case "&":
+                            turtle.pitchDown();
+                            break;
+                        case "^":
+                            turtle.pitchUp();
+                            break;
+                        case "\\":
+                            turtle.rollLeft();
+                            break;
+                        case "/":
+                            turtle.rollRight();
+                            break;
+                        case "|":
+                            turtle.turnAround();
+                            break;
+                        case "[":
+                            turtle.pushState();
+                            break;
+                        case "]":
+                            turtle.popState();
+                            break;
+                        default:
+
+                    }
+                }
+            }
+
         </script>
     </body>
 </html>
