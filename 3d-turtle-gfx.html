@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset=utf-8>
-        <title>sketch02</title>
+        <title>3D Turtle Graphics Renderer</title>
         <style>
             canvas {
                 margin: auto;
@@ -48,19 +48,25 @@
             }
 
             function addGeometry() {
-                var turters = new Turtle(10, 90);
-                
-                for(var i = 0; i < 3; i++) {
-                    turters.moveForward();
-                    turters.turnLeft();
-                    turters.moveForward();
-                    turters.turnLeft();
-                    turters.moveForward();
-                    turters.turnLeft();
-                    turters.moveForward();
-    
-                    turters.pitchDown();
-                }
+                var command;
+                var ruleset = [];
+                var iterations;
+                var turnAngle;
+                var stepSize;
+
+                iterations = 2;
+                turnAngle = 90;
+                stepSize = 5;
+
+                command = "A";
+                ruleset["A"] = "B-F+CFC+F-D&F^D-F+&&CFC+F+B//";
+                ruleset["B"] = "A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//";
+                ruleset["C"] = "|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//";
+                ruleset["D"] = "|CFB-F+B|FA&F^A&&FB-F+B|FC//";
+
+                var turters = new Turtle(stepSize, turnAngle);
+
+                drawLSystem(turters, iterations, command, ruleset);
             }
 
             function animate() {
@@ -193,6 +199,10 @@
                     this.position = turtleState["position"];
                     this.hlu = turtleState["hlu"];
                 };
+            }
+
+            function drawLSystem(turtle, iterations, command, ruleset) {
+
             }
         </script>
     </body>
