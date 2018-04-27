@@ -257,6 +257,7 @@
             function addRule() {
                 var ruleTable = document.getElementById("rule-table");
                 var row = ruleTable.insertRow();
+                row.classList.add("rule-set");
                 var symbolCell = row.insertCell();
                 var ruleCell = row.insertCell();
                 var deleteCell = row.insertCell();
@@ -271,6 +272,42 @@
                 document.getElementById("rule-table").deleteRow(i);
             }
 
+            function generateModel() {
+                // clear the scene
+                while(scene.children.length > 0){ 
+                    scene.remove(scene.children[0]); 
+                }
+
+                var command;
+                var ruleset = [];
+                var iterations;
+                var turnAngle;
+                var stepSize;
+
+                iterations = document.getElementById("order").value;
+                turnAngle = document.getElementById("turn-angle").value;
+                stepSize = 3;
+
+                command = document.getElementById("base-axiom").value;
+                symbolList = document.querySelectorAll("input.symbol-input");
+                ruleList = document.querySelectorAll("input.rule-input");
+                for(var i = 0; i < symbolList.length; i++) {
+                    ruleset[symbolList[i].value] = ruleList[i].value;
+                }
+                console.log("iterations: " + iterations);
+                console.log("turnAngle: " + turnAngle);
+                console.log("command: " + command);
+
+                // ruleset["A"] = "B-F+CFC+F-D&F^D-F+&&CFC+F+B//";
+                // ruleset["B"] = "A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//";
+                // ruleset["C"] = "|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//";
+                // ruleset["D"] = "|CFB-F+B|FA&F^A&&FB-F+B|FC//";
+
+                var turters = new Turtle(stepSize, turnAngle);
+
+                var commandEx = processLSystem(iterations, command, ruleset);
+                drawLSystem(turters, commandEx);
+            }
         </script>
         <div>
             <label><span>n</span><input type="text" id="order" /></label><br />
@@ -281,7 +318,7 @@
                     <th>Symbol</th>
                     <th>Rule</th>
                 </tr>
-                <tr>
+                <tr class="rule-set">
                     <td><input type="text" class="symbol-input" /></td>
                     <td><input type="text" class="rule-input" /></td>
                 </tr>
