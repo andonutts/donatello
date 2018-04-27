@@ -2,8 +2,47 @@
 <html>
     <head>
         <meta charset=utf-8>
-        <title>3D Turtle Graphics Renderer</title>
+        <title>3D Turtle Graphics</title>
         <style>
+            #top-container {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            #canvas-container {
+                margin-right: 10px;
+            }
+
+            #control-panel {
+                min-width: 450px;
+            }
+
+            h1 {
+                margin-top: 0;
+            }
+
+            label > span {
+                float: left;
+                width: 200px;
+            }
+
+            label > input {
+                width: 60px;
+                padding: 0;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+            .symbol-input {
+                width: 30px;
+            }
+
+            .rule-input {
+                width: 280px;
+            }
+
         </style>
     </head>
     <body>
@@ -25,7 +64,7 @@
             }
 
             function init() {
-                var canvasWidth = 800;
+                var canvasWidth = 512;
                 var canvasHeight = 512;
 
                 renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -55,7 +94,7 @@
 
                 var iterations = document.getElementById("order").value;
                 var turnAngle = document.getElementById("turn-angle").value;
-                var stepSize = 3;
+                var stepSize = 5;
 
                 var ruleset = [];
                 var command = document.getElementById("base-axiom").value;
@@ -284,7 +323,7 @@
                 var ruleCell = row.insertCell();
                 var deleteCell = row.insertCell();
 
-                symbolCell.innerHTML = '<input type="text" class="symbol-input" />';
+                symbolCell.innerHTML = '<input type="text" class="symbol-input" maxlength="1" /> &#8594;';
                 ruleCell.innerHTML = '<input type="text" class="rule-input" />';
                 deleteCell.innerHTML = '<button onclick="deleteRule(this)">Delete Rule</button>'
             }
@@ -322,23 +361,27 @@
             }
 
         </script>
-        <div id="canvas-container"></div>
-        <div id="control-panel">
-            <label><span>n</span><input type="text" id="order" /></label><br />
-            <label><span>&delta;</span><input type="text" id="turn-angle" /></label><br />
-            <label><span>Base axiom</span><input type="text" id="base-axiom" /></label><br />
-            <table id="rule-table">
-                <tr>
-                    <th>Symbol</th>
-                    <th>Rule</th>
-                </tr>
-                <tr class="rule-set">
-                    <td><input type="text" class="symbol-input" /></td>
-                    <td><input type="text" class="rule-input" /></td>
-                </tr>
-            </table>
-            <button onclick="addRule()">Add New Rule</button><br />
-            <button onclick="generateModel()">Generate</button>
+        <div id="top-container">
+            <div id="canvas-container"></div>
+            <div id="control-panel">
+                <h1>3d-turtle-gfx</h1>
+                <label><span>n, number of recursions</span><input type="number" id="order" min="1" /></label><br />
+                <label><span>&delta;, angle increment (degrees)</span><input type="number" id="turn-angle" /></label><br />
+                <br />
+                <label><span>Base axiom</span></label><br />
+                <input type="text" id="base-axiom" /><br />
+                <br />
+                <label>Production rules</label>
+                <table id="rule-table">
+                    <tr class="rule-set">
+                        <td><input type="text" class="symbol-input" maxlength="1" /> &#8594;</td>
+                        <td><input type="text" class="rule-input" /></td>
+                    </tr>
+                </table>
+                <button onclick="addRule()">Add New Rule</button><br />
+                <br />
+                <button onclick="generateModel()">Generate L-System</button>
+            </div>
         </div>
     </body>
 </html>
