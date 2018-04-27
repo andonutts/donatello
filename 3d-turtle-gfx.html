@@ -41,7 +41,8 @@
                 scene = new THREE.Scene();
                 
                 controls = new THREE.OrbitControls( camera, renderer.domElement );
-                controls.enablePan = false;
+                // controls.enablePan = false;
+                controls.screenSpacePanning = true;
                 controls.minDistance = 10;
                 controls.maxDistance = 500;
             }
@@ -106,8 +107,6 @@
                         this.hlu[1][0],
                         this.hlu[2][0]
                     );
-
-                    // var geometry = new THREE.Geometry();
                     
                     this.vertices.push(
                         this.position[0],
@@ -122,10 +121,16 @@
                         this.position[1],
                         this.position[2]
                     );
-                    
-                    // var material = new THREE.LineBasicMaterial( { color: 0x4c4c4c } );
-                    // var line = new THREE.LineSegments( geometry, material );
-                    // scene.add( line );
+                }
+
+                this.moveForwardNoDraw = function() {
+                    var h = vec3(
+                        this.hlu[0][0],
+                        this.hlu[1][0],
+                        this.hlu[2][0]
+                    );
+
+                    this.position = add(this.position, scale(stepSize, h));
                 }
 
                 this.turnLeft = function() {
@@ -235,6 +240,9 @@
                         case "F":
                             turtle.moveForward();
                             break;
+                        case "f":
+                            turtle.moveForwardNoDraw();
+                            break;
                         case "+":
                             turtle.turnLeft();
                             break;
@@ -291,7 +299,7 @@
                     addRule();
                 }
 
-                document.getElementById("order").value = "3";
+                document.getElementById("order").value = "2";
                 document.getElementById("turn-angle").value = "90";
                 document.getElementById("base-axiom").value = "A";
 
