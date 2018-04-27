@@ -64,6 +64,12 @@
 
                 var commandEx = processLSystem(iterations, command, ruleset);
                 drawLSystem(turters, commandEx);
+
+                var geometry = new THREE.BufferGeometry();
+                geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( turters.vertices, 3 ) );
+                var material = new THREE.LineBasicMaterial( { color: 0x4c4c4c } );
+                var line = new THREE.LineSegments( geometry, material );
+                scene.add( line );
             }
 
             function animate() {
@@ -75,6 +81,7 @@
                 this.stepSize = stepSize;
                 this.turnAngle = turnAngle * Math.PI / 180;
                 this.stateStack = [];
+                this.vertices = [];
 
                 // initialize at origin
                 this.position = vec3( 0, 0, 0 );
@@ -93,25 +100,25 @@
                         this.hlu[2][0]
                     );
 
-                    var material = new THREE.LineBasicMaterial( { color: 0x4c4c4c } );
-                    var geometry = new THREE.Geometry();
-
-                    geometry.vertices.push(new THREE.Vector3(
+                    // var geometry = new THREE.Geometry();
+                    
+                    this.vertices.push(
                         this.position[0],
                         this.position[1],
                         this.position[2]
-                    ));
-
+                    );
+                    
                     this.position = add(this.position, scale(stepSize, h));
-
-                    geometry.vertices.push(new THREE.Vector3(
+                    
+                    this.vertices.push(
                         this.position[0],
                         this.position[1],
                         this.position[2]
-                    ));
-
-                    var line = new THREE.Line( geometry, material );
-                    scene.add( line );
+                    );
+                    
+                    // var material = new THREE.LineBasicMaterial( { color: 0x4c4c4c } );
+                    // var line = new THREE.LineSegments( geometry, material );
+                    // scene.add( line );
                 }
 
                 this.turnLeft = function() {
@@ -294,19 +301,17 @@
                 for(var i = 0; i < symbolList.length; i++) {
                     ruleset[symbolList[i].value] = ruleList[i].value;
                 }
-                console.log("iterations: " + iterations);
-                console.log("turnAngle: " + turnAngle);
-                console.log("command: " + command);
-
-                // ruleset["A"] = "B-F+CFC+F-D&F^D-F+&&CFC+F+B//";
-                // ruleset["B"] = "A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//";
-                // ruleset["C"] = "|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//";
-                // ruleset["D"] = "|CFB-F+B|FA&F^A&&FB-F+B|FC//";
 
                 var turters = new Turtle(stepSize, turnAngle);
 
                 var commandEx = processLSystem(iterations, command, ruleset);
                 drawLSystem(turters, commandEx);
+
+                var geometry = new THREE.BufferGeometry();
+                geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( turters.vertices, 3 ) );
+                var material = new THREE.LineBasicMaterial( { color: 0x4c4c4c } );
+                var line = new THREE.LineSegments( geometry, material );
+                scene.add( line );
             }
         </script>
         <div>
