@@ -22,6 +22,10 @@
                 margin-top: 10px;
             }
 
+            hr {
+                color: #dcdcdc;
+            }
+
             label > span {
                 float: left;
                 width: 200px;
@@ -37,6 +41,7 @@
 
             .symbol-input {
                 width: 30px;
+                margin-right: 5px;
             }
 
             .rule-input {
@@ -83,6 +88,39 @@
                 controls.screenSpacePanning = true;
                 controls.minDistance = 10;
                 controls.maxDistance = 500;
+
+                addEventListeners();
+            }
+
+            function addEventListeners() {
+                var presetSelect = document.getElementById("preset-select");
+                presetSelect.onchange = function() {
+                    switch(presetSelect.value) {
+                        case "hilbert":
+                            generateHilbertCurve();
+                            break;
+                        case "bush":
+                            generateBush();
+                            break;
+                        case "dragon":
+                            generateDragon();
+                            break;
+                        case "koch-curve":
+                            generateKochCurve();
+                            break;
+                        case "koch-island":
+                            generateKochIsland();
+                            break;
+                        case "koch-island-lake":
+                            generateKochIslandsAndLakes();
+                            break;
+                        case "2d-tree":
+                            generate2dTree();
+                            break;
+                        default:
+
+                    }
+                }
             }
 
             function generateModel() {
@@ -327,7 +365,7 @@
                 var ruleCell = row.insertCell();
                 var deleteCell = row.insertCell();
 
-                symbolCell.innerHTML = '<input type="text" class="symbol-input" maxlength="1" /> &#8594;';
+                symbolCell.innerHTML = '<input type="text" class="symbol-input" maxlength="1" />&#8594;';
                 ruleCell.innerHTML = '<input type="text" class="rule-input" />';
                 deleteCell.innerHTML = '<button onclick="deleteRule(this)">Delete</button>'
             }
@@ -376,7 +414,7 @@
             function generateBush() {
                 setRuleCount(4);
 
-                document.getElementById("step-size").value = "2";
+                document.getElementById("step-size").value = "1";
                 document.getElementById("order").value = "7";
                 document.getElementById("turn-angle").value = "22.5";
                 document.getElementById("base-axiom").value = "A";
@@ -416,6 +454,40 @@
                 generateModel();
             }
 
+            function generateKochCurve() {
+                setRuleCount(1);
+
+                document.getElementById("step-size").value = "2";
+                document.getElementById("order").value = "3";
+                document.getElementById("turn-angle").value = "90";
+                document.getElementById("base-axiom").value = "F-F-F-F";
+
+                symbolList = document.querySelectorAll("input.symbol-input");
+                ruleList = document.querySelectorAll("input.rule-input");
+                
+                symbolList[0].value = "F";
+                ruleList[0].value = "FF-F+F-F-FF";
+
+                generateModel();
+            }                      
+
+            function generateKochIsland() {
+                setRuleCount(1);
+
+                document.getElementById("step-size").value = "1";
+                document.getElementById("order").value = "2";
+                document.getElementById("turn-angle").value = "90";
+                document.getElementById("base-axiom").value = "F-F-F-F";
+
+                symbolList = document.querySelectorAll("input.symbol-input");
+                ruleList = document.querySelectorAll("input.rule-input");
+                
+                symbolList[0].value = "F";
+                ruleList[0].value = "F-F+F+FF-F-F+F";
+
+                generateModel();
+            }
+
             function generateKochIslandsAndLakes() {
                 setRuleCount(2);
 
@@ -436,6 +508,26 @@
                 generateModel();
             }
 
+            function generate2dTree() {
+                setRuleCount(2);
+
+                document.getElementById("step-size").value = "0.2";
+                document.getElementById("order").value = "7";
+                document.getElementById("turn-angle").value = "20";
+                document.getElementById("base-axiom").value = "X";
+
+                symbolList = document.querySelectorAll("input.symbol-input");
+                ruleList = document.querySelectorAll("input.rule-input");
+                
+                symbolList[0].value = "X";
+                ruleList[0].value = "F[+X]F[-X]+X";
+
+                symbolList[1].value = "F";
+                ruleList[1].value = "FF";
+
+                generateModel();
+            }
+
         </script>
         <div id="top-container">
             <div id="canvas-container"></div>
@@ -451,7 +543,7 @@
                 <label>Production rules</label>
                 <table id="rule-table">
                     <tr class="rule-set">
-                        <td><input type="text" class="symbol-input" maxlength="1" /> &#8594;</td>
+                        <td><input type="text" class="symbol-input" maxlength="1" />&#8594;</td>
                         <td><input type="text" class="rule-input" /></td>
                     </tr>
                 </table>
@@ -462,11 +554,17 @@
 
                 <hr>
 
-                <label>Presets</label><br />
-                <button onclick="generateHilbertCurve()">Hilbert Curve</button><br />
-                <button onclick="generateBush()">Bush-like Structure</button><br />
-                <button onclick="generateDragon()">2D Dragon Curve</button><br />
-                <button onclick="generateKochIslandsAndLakes()">Islands and Lakes</button><br />
+                <label>Presets</label>
+                <select id="preset-select">
+                    <option value="">Select a preset...</option>
+                    <option value="hilbert">Hilbert curve</option>
+                    <option value="bush">Bush-like structure</option>
+                    <option value="dragon">Dragon curve</option>
+                    <option value="koch-curve">Koch curve</option>
+                    <option value="koch-island">Koch island</option>
+                    <option value="koch-island-lake">Koch islands and lakes</option>
+                    <option value="2d-tree">2D tree</option>
+                </select>
             </div>
         </div>
     </body>
