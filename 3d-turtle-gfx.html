@@ -105,6 +105,9 @@
                         case "bush":
                             generateBush();
                             break;
+                        case "plant":
+                            generatePlant();
+                            break;
                         case "dragon":
                             generateDragon();
                             break;
@@ -162,10 +165,10 @@
 
                 var commandEx = processLSystem(iterations, command, ruleset);
                 drawLSystem(turters, commandEx);
-                createGeometry(turters.vertices, turters.leafVertices);
+                createGeometry(turters.vertices, turters.leafVertices, turters.petalVertices);
             }
 
-            function createGeometry(vertices, leafVertices) {
+            function createGeometry(vertices, leafVertices, petalVertices) {
                 var geometry = new THREE.BufferGeometry();
                 geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
                 var material = new THREE.LineBasicMaterial( { color: 0x4c4c4c } );
@@ -174,9 +177,15 @@
 
                 var leafGeometry = new THREE.BufferGeometry();
                 leafGeometry.addAttribute( 'position', new THREE.Float32BufferAttribute( leafVertices, 3 ) );
-                var leafMaterial = new THREE.MeshBasicMaterial( { color: 0x009933, side: THREE.DoubleSide } );
+                var leafMaterial = new THREE.MeshBasicMaterial( { color: 0x1d8348, side: THREE.DoubleSide } );
                 var leafMesh = new THREE.Mesh( leafGeometry, leafMaterial );
                 scene.add( leafMesh );
+
+                var petalGeometry = new THREE.BufferGeometry();
+                petalGeometry.addAttribute( 'position', new THREE.Float32BufferAttribute( petalVertices, 3 ) );
+                var petalMaterial = new THREE.MeshBasicMaterial( { color: 0xff5733, side: THREE.DoubleSide } );
+                var petalMesh = new THREE.Mesh( petalGeometry, petalMaterial );
+                scene.add( petalMesh );
             }
 
             function animate() {
@@ -190,6 +199,7 @@
                 this.stateStack = [];
                 this.vertices = [];
                 this.leafVertices = [];
+                this.petalVertices = [];
 
                 // initialize at origin
                 this.position = vec3( 0, 0, 0 );
@@ -324,10 +334,26 @@
 
                     this.leafVertices.push(
                         x, y, z,
-                        x+head[0]+left[0]/2-up[0]/2, y+head[1]+left[1]/2-up[1]/2, z+head[2]+left[2]/2-up[2]/2,
-                        x+2*head[0]-up[0], y+2*head[1]-up[1], z+2*head[2]-up[2],
-                        x+2*head[0]-up[0], y+2*head[1]-up[1], z+2*head[2]-up[2],
-                        x+head[0]-left[0]/2-up[0]/2, y+head[1]-left[1]/2-up[1]/2, z+head[2]-left[2]/2-up[2]/2,
+                        x+head[0]+left[0]/2, y+head[1]+left[1]/2, z+head[2]+left[2]/2,
+                        x+2*head[0], y+2*head[1], z+2*head[2],
+                        x+2*head[0], y+2*head[1], z+2*head[2],
+                        x+head[0]-left[0]/2, y+head[1]-left[1]/2, z+head[2]-left[2]/2,
+                        x, y, z
+                    );
+                }
+
+                this.drawPetal = function() {
+                    var x = this.position[0], y = this.position[1], z = this.position[2];
+                    var head = [ this.hlu[0][0], this.hlu[1][0], this.hlu[2][0] ];
+                    var left = [ this.hlu[0][1], this.hlu[1][1], this.hlu[2][1] ];
+                    var up = [ this.hlu[0][2], this.hlu[1][2], this.hlu[2][2] ];
+
+                    this.petalVertices.push(
+                        x, y, z,
+                        x+head[0]+left[0]/2, y+head[1]+left[1]/2, z+head[2]+left[2]/2,
+                        x+2*head[0], y+2*head[1], z+2*head[2],
+                        x+2*head[0], y+2*head[1], z+2*head[2],
+                        x+head[0]-left[0]/2, y+head[1]-left[1]/2, z+head[2]-left[2]/2,
                         x, y, z
                     );
                 }
@@ -388,6 +414,9 @@
                             break;
                         case "L":
                             turtle.drawLeaf();
+                            break;
+                        case "P":
+                            turtle.drawPetal();
                             break;
                         default:
 
@@ -470,7 +499,42 @@
                 ruleList[2].value = "FL";
 
                 symbolList[3].value = "L";
-                ruleList[3].value = "[^^-f+f+f-|-f+f+f]";
+                ruleList[3].value = "[^^-L]";
+
+                generateModel();
+            }
+
+            function generatePlant() {
+                setRuleCount(7);
+
+                document.getElementById("step-size").value = "1";
+                document.getElementById("order").value = "4";
+                document.getElementById("turn-angle").value = "18";
+                document.getElementById("base-axiom").value = "A";
+
+                symbolList = document.querySelectorAll("input.symbol-input");
+                ruleList = document.querySelectorAll("input.rule-input");
+                
+                symbolList[0].value = "A";
+                ruleList[0].value = "I+[A+w]--//[--L]I[++L]-[Aw]++Aw";
+
+                symbolList[1].value = "I";
+                ruleList[1].value = "FS[//&&L][//^^L]FS";
+
+                symbolList[2].value = "S";
+                ruleList[2].value = "SFS";
+
+                symbolList[3].value = "L";
+                ruleList[3].value = "['L]";
+
+                symbolList[4].value = "w";
+                ruleList[4].value = "[&&&p'/W////W////W////W////W]";
+
+                symbolList[5].value = "p";
+                ruleList[5].value = "FF";
+
+                symbolList[6].value = "W";
+                ruleList[6].value = "['^F][&&&&P]";
 
                 generateModel();
             }
@@ -654,6 +718,7 @@
                     <option value="">Select a preset...</option>
                     <option value="hilbert">Hilbert curve</option>
                     <option value="bush">Bush-like structure</option>
+                    <option value="plant">Plant</option>
                     <option value="dragon">Dragon curve</option>
                     <option value="sierpinski-1">Sierpinski gasket 1</option>
                     <option value="sierpinski-2">Sierpinski gasket 2</option>
