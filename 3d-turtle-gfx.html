@@ -162,15 +162,21 @@
 
                 var commandEx = processLSystem(iterations, command, ruleset);
                 drawLSystem(turters, commandEx);
-                createGeometry(turters.vertices);
+                createGeometry(turters.vertices, turters.leafVertices);
             }
 
-            function createGeometry(vertices) {
+            function createGeometry(vertices, leafVertices) {
                 var geometry = new THREE.BufferGeometry();
                 geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
                 var material = new THREE.LineBasicMaterial( { color: 0x4c4c4c } );
                 var line = new THREE.LineSegments( geometry, material );
                 scene.add( line );
+
+                var leafGeometry = new THREE.BufferGeometry();
+                leafGeometry.addAttribute( 'position', new THREE.Float32BufferAttribute( leafVertices, 3 ) );
+                var leafMaterial = new THREE.MeshBasicMaterial( { color: 0x009933, side: THREE.DoubleSide } );
+                var leafMesh = new THREE.Mesh( leafGeometry, leafMaterial );
+                scene.add( leafMesh );
             }
 
             function animate() {
@@ -183,6 +189,7 @@
                 this.turnAngle = turnAngle * Math.PI / 180;
                 this.stateStack = [];
                 this.vertices = [];
+                this.leafVertices = [];
 
                 // initialize at origin
                 this.position = vec3( 0, 0, 0 );
@@ -308,6 +315,22 @@
                     this.position = turtleState["position"];
                     this.hlu = turtleState["hlu"];
                 };
+
+                this.drawLeaf = function() {
+                    var x = this.position[0], y = this.position[1], z = this.position[2];
+                    var head = [ this.hlu[0][0], this.hlu[1][0], this.hlu[2][0] ];
+                    var left = [ this.hlu[0][1], this.hlu[1][1], this.hlu[2][1] ];
+                    var up = [ this.hlu[0][2], this.hlu[1][2], this.hlu[2][2] ];
+
+                    this.leafVertices.push(
+                        x, y, z,
+                        x+head[0]+left[0]/2-up[0]/2, y+head[1]+left[1]/2-up[1]/2, z+head[2]+left[2]/2-up[2]/2,
+                        x+2*head[0]-up[0], y+2*head[1]-up[1], z+2*head[2]-up[2],
+                        x+2*head[0]-up[0], y+2*head[1]-up[1], z+2*head[2]-up[2],
+                        x+head[0]-left[0]/2-up[0]/2, y+head[1]-left[1]/2-up[1]/2, z+head[2]-left[2]/2-up[2]/2,
+                        x, y, z
+                    );
+                }
             }
 
             function processLSystem(iterations, command, ruleset) {
@@ -362,6 +385,9 @@
                             break;
                         case "]":
                             turtle.popState();
+                            break;
+                        case "L":
+                            turtle.drawLeaf();
                             break;
                         default:
 
@@ -426,8 +452,8 @@
             function generateBush() {
                 setRuleCount(4);
 
-                document.getElementById("step-size").value = "1";
-                document.getElementById("order").value = "7";
+                document.getElementById("step-size").value = "2";
+                document.getElementById("order").value = "4";
                 document.getElementById("turn-angle").value = "22.5";
                 document.getElementById("base-axiom").value = "A";
 
