@@ -86,10 +86,13 @@
                 
                 controls = new THREE.OrbitControls( camera, renderer.domElement );
                 controls.screenSpacePanning = true;
+                controls.enableKeys = false;
                 controls.minDistance = 10;
                 controls.maxDistance = 500;
 
                 addEventListeners();
+
+                document.getElementById("preset-select").value = "";
             }
 
             function addEventListeners() {
@@ -105,8 +108,17 @@
                         case "dragon":
                             generateDragon();
                             break;
+                        case "sierpinski-1":
+                            generateSierpinskiGasket1();
+                            break;
+                        case "sierpinski-2":
+                            generateSierpinskiGasket2();
+                            break;
                         case "koch-curve":
                             generateKochCurve();
+                            break;
+                        case "koch-snowflake":
+                            generateKochSnowflake();
                             break;
                         case "koch-island":
                             generateKochIsland();
@@ -454,6 +466,46 @@
                 generateModel();
             }
 
+            function generateSierpinskiGasket1() {
+                setRuleCount(1);
+
+                document.getElementById("step-size").value = "1";
+                document.getElementById("order").value = "4";
+                document.getElementById("turn-angle").value = "120";
+                document.getElementById("base-axiom").value = "F";
+
+                symbolList = document.querySelectorAll("input.symbol-input");
+                ruleList = document.querySelectorAll("input.rule-input");
+                
+                symbolList[0].value = "F";
+                ruleList[0].value = "F+F-F-F+F";
+
+                generateModel();
+            }
+
+            function generateSierpinskiGasket2() {
+                setRuleCount(3);
+
+                document.getElementById("step-size").value = "1";
+                document.getElementById("order").value = "4";
+                document.getElementById("turn-angle").value = "60";
+                document.getElementById("base-axiom").value = "FX";
+
+                symbolList = document.querySelectorAll("input.symbol-input");
+                ruleList = document.querySelectorAll("input.rule-input");
+                
+                symbolList[0].value = "F";
+                ruleList[0].value = "Z";
+                
+                symbolList[1].value = "X";
+                ruleList[1].value = "+FY-FX-FY+";
+
+                symbolList[2].value = "Y";
+                ruleList[2].value = "-FX+FY+FX-";
+
+                generateModel();
+            }
+
             function generateKochCurve() {
                 setRuleCount(1);
 
@@ -470,6 +522,23 @@
 
                 generateModel();
             }                      
+
+            function generateKochSnowflake() {
+                setRuleCount(1);
+
+                document.getElementById("step-size").value = "1";
+                document.getElementById("order").value = "2";
+                document.getElementById("turn-angle").value = "60";
+                document.getElementById("base-axiom").value = "F++F++F";
+
+                symbolList = document.querySelectorAll("input.symbol-input");
+                ruleList = document.querySelectorAll("input.rule-input");
+                
+                symbolList[0].value = "F";
+                ruleList[0].value = "F-F++F-F";
+
+                generateModel();
+            }
 
             function generateKochIsland() {
                 setRuleCount(1);
@@ -560,7 +629,10 @@
                     <option value="hilbert">Hilbert curve</option>
                     <option value="bush">Bush-like structure</option>
                     <option value="dragon">Dragon curve</option>
+                    <option value="sierpinski-1">Sierpinski gasket 1</option>
+                    <option value="sierpinski-2">Sierpinski gasket 2</option>
                     <option value="koch-curve">Koch curve</option>
+                    <option value="koch-snowflake">Koch snowflake</option>
                     <option value="koch-island">Koch island</option>
                     <option value="koch-island-lake">Koch islands and lakes</option>
                     <option value="2d-tree">2D tree</option>
