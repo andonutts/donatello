@@ -117,8 +117,14 @@
                         case "sierpinski-2":
                             generateSierpinskiGasket2();
                             break;
-                        case "koch-curve":
-                            generateKochCurve();
+                        case "koch-curve-1":
+                            generateKochCurve1();
+                            break;
+                        case "koch-curve-2":
+                            generateKochCurve2();
+                            break;
+                        case "koch-curve-3":
+                            generateKochCurve3();
                             break;
                         case "koch-snowflake":
                             generateKochSnowflake();
@@ -327,34 +333,42 @@
                 };
 
                 this.drawLeaf = function() {
-                    var x = this.position[0], y = this.position[1], z = this.position[2];
-                    var head = [ this.hlu[0][0], this.hlu[1][0], this.hlu[2][0] ];
-                    var left = [ this.hlu[0][1], this.hlu[1][1], this.hlu[2][1] ];
-                    var up = [ this.hlu[0][2], this.hlu[1][2], this.hlu[2][2] ];
+                    var pos = vec3(this.position[0], this.position[1], this.position[2]);
+                    var head = vec3(this.hlu[0][0], this.hlu[1][0], this.hlu[2][0]);
+                    var left = vec3(this.hlu[0][1], this.hlu[1][1], this.hlu[2][1]);
+                    var up = vec3(this.hlu[0][2], this.hlu[1][2], this.hlu[2][2]);
+
+                    var edge1 = scale(this.stepSize, normalize(add(head, scale(0.5, left))));
+                    var edge2 = scale(this.stepSize, normalize(add(head, negate(scale(0.5, left)))));
+                    var diag = add(edge1, edge2);
 
                     this.leafVertices.push(
-                        x, y, z,
-                        x+head[0]+left[0]/2, y+head[1]+left[1]/2, z+head[2]+left[2]/2,
-                        x+2*head[0], y+2*head[1], z+2*head[2],
-                        x+2*head[0], y+2*head[1], z+2*head[2],
-                        x+head[0]-left[0]/2, y+head[1]-left[1]/2, z+head[2]-left[2]/2,
-                        x, y, z
+                        pos[0], pos[1], pos[2],
+                        (add(pos, edge1))[0], (add(pos, edge1))[1], (add(pos, edge1))[2],
+                        (add(pos, diag))[0], (add(pos, diag))[1], (add(pos, diag))[2],
+                        (add(pos, diag))[0], (add(pos, diag))[1], (add(pos, diag))[2],
+                        (add(pos, edge2))[0], (add(pos, edge2))[1], (add(pos, edge2))[2],
+                        pos[0], pos[1], pos[2],
                     );
                 }
 
                 this.drawPetal = function() {
-                    var x = this.position[0], y = this.position[1], z = this.position[2];
-                    var head = [ this.hlu[0][0], this.hlu[1][0], this.hlu[2][0] ];
-                    var left = [ this.hlu[0][1], this.hlu[1][1], this.hlu[2][1] ];
-                    var up = [ this.hlu[0][2], this.hlu[1][2], this.hlu[2][2] ];
+                    var pos = vec3(this.position[0], this.position[1], this.position[2]);
+                    var head = vec3(this.hlu[0][0], this.hlu[1][0], this.hlu[2][0]);
+                    var left = vec3(this.hlu[0][1], this.hlu[1][1], this.hlu[2][1]);
+                    var up = vec3(this.hlu[0][2], this.hlu[1][2], this.hlu[2][2]);
+
+                    var edge1 = scale(this.stepSize, normalize(add(head, scale(0.5, left))));
+                    var edge2 = scale(this.stepSize, normalize(add(head, negate(scale(0.5, left)))));
+                    var diag = add(edge1, edge2);
 
                     this.petalVertices.push(
-                        x, y, z,
-                        x+head[0]+left[0]/2, y+head[1]+left[1]/2, z+head[2]+left[2]/2,
-                        x+2*head[0], y+2*head[1], z+2*head[2],
-                        x+2*head[0], y+2*head[1], z+2*head[2],
-                        x+head[0]-left[0]/2, y+head[1]-left[1]/2, z+head[2]-left[2]/2,
-                        x, y, z
+                        pos[0], pos[1], pos[2],
+                        (add(pos, edge1))[0], (add(pos, edge1))[1], (add(pos, edge1))[2],
+                        (add(pos, diag))[0], (add(pos, diag))[1], (add(pos, diag))[2],
+                        (add(pos, diag))[0], (add(pos, diag))[1], (add(pos, diag))[2],
+                        (add(pos, edge2))[0], (add(pos, edge2))[1], (add(pos, edge2))[2],
+                        pos[0], pos[1], pos[2],
                     );
                 }
             }
@@ -596,7 +610,7 @@
                 generateModel();
             }
 
-            function generateKochCurve() {
+            function generateKochCurve1() {
                 setRuleCount(1);
 
                 document.getElementById("step-size").value = "2";
@@ -611,7 +625,41 @@
                 ruleList[0].value = "FF-F+F-F-FF";
 
                 generateModel();
-            }                      
+            }
+
+            function generateKochCurve2() {
+                setRuleCount(1);
+
+                document.getElementById("step-size").value = "2";
+                document.getElementById("order").value = "3";
+                document.getElementById("turn-angle").value = "90";
+                document.getElementById("base-axiom").value = "F-F-F-F";
+
+                symbolList = document.querySelectorAll("input.symbol-input");
+                ruleList = document.querySelectorAll("input.rule-input");
+                
+                symbolList[0].value = "F";
+                ruleList[0].value = "F-FF--F-F";
+
+                generateModel();
+            }
+
+            function generateKochCurve3() {
+                setRuleCount(1);
+
+                document.getElementById("step-size").value = "2";
+                document.getElementById("order").value = "3";
+                document.getElementById("turn-angle").value = "90";
+                document.getElementById("base-axiom").value = "F-F-F-F";
+
+                symbolList = document.querySelectorAll("input.symbol-input");
+                ruleList = document.querySelectorAll("input.rule-input");
+                
+                symbolList[0].value = "F";
+                ruleList[0].value = "FF-F-F-F-FF";
+
+                generateModel();
+            }
 
             function generateKochSnowflake() {
                 setRuleCount(1);
@@ -718,11 +766,13 @@
                     <option value="">Select a preset...</option>
                     <option value="hilbert">Hilbert curve</option>
                     <option value="bush">Bush-like structure</option>
-                    <option value="plant">Plant</option>
+                    <option value="plant">Plant with flowers</option>
                     <option value="dragon">Dragon curve</option>
                     <option value="sierpinski-1">Sierpinski gasket 1</option>
                     <option value="sierpinski-2">Sierpinski gasket 2</option>
-                    <option value="koch-curve">Koch curve</option>
+                    <option value="koch-curve-1">Koch curve 1</option>
+                    <option value="koch-curve-2">Koch curve 2</option>
+                    <option value="koch-curve-3">Koch curve 3</option>
                     <option value="koch-snowflake">Koch snowflake</option>
                     <option value="koch-island">Koch island</option>
                     <option value="koch-island-lake">Koch islands and lakes</option>
