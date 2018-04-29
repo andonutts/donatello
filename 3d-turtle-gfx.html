@@ -108,8 +108,11 @@
                         case "plant":
                             generatePlant();
                             break;
-                        case "dragon":
-                            generateDragon();
+                        case "dragon-1":
+                            generateDragon1();
+                            break;
+                        case "dragon-2":
+                            generateDragon2();
                             break;
                         case "sierpinski-1":
                             generateSierpinskiGasket1();
@@ -553,10 +556,30 @@
                 generateModel();
             }
 
-            function generateDragon() {
+            function generateDragon1() {
+                setRuleCount(2);
+
+                document.getElementById("step-size").value = "1";
+                document.getElementById("order").value = "10";
+                document.getElementById("turn-angle").value = "90";
+                document.getElementById("base-axiom").value = "FX";
+
+                symbolList = document.querySelectorAll("input.symbol-input");
+                ruleList = document.querySelectorAll("input.rule-input");
+                
+                symbolList[0].value = "X";
+                ruleList[0].value = "X+YF+";
+
+                symbolList[1].value = "Y";
+                ruleList[1].value = "-FX-Y";
+
+                generateModel();
+            }
+
+            function generateDragon2() {
                 setRuleCount(1);
 
-                document.getElementById("step-size").value = "3";
+                document.getElementById("step-size").value = "2";
                 document.getElementById("order").value = "5";
                 document.getElementById("turn-angle").value = "30";
                 document.getElementById("base-axiom").value = "F";
@@ -573,7 +596,7 @@
             function generateSierpinskiGasket1() {
                 setRuleCount(1);
 
-                document.getElementById("step-size").value = "1";
+                document.getElementById("step-size").value = "1.5";
                 document.getElementById("order").value = "4";
                 document.getElementById("turn-angle").value = "120";
                 document.getElementById("base-axiom").value = "F";
@@ -590,7 +613,7 @@
             function generateSierpinskiGasket2() {
                 setRuleCount(3);
 
-                document.getElementById("step-size").value = "1";
+                document.getElementById("step-size").value = "1.5";
                 document.getElementById("order").value = "4";
                 document.getElementById("turn-angle").value = "60";
                 document.getElementById("base-axiom").value = "FX";
@@ -630,7 +653,7 @@
             function generateKochCurve2() {
                 setRuleCount(1);
 
-                document.getElementById("step-size").value = "2";
+                document.getElementById("step-size").value = "3";
                 document.getElementById("order").value = "3";
                 document.getElementById("turn-angle").value = "90";
                 document.getElementById("base-axiom").value = "F-F-F-F";
@@ -647,7 +670,7 @@
             function generateKochCurve3() {
                 setRuleCount(1);
 
-                document.getElementById("step-size").value = "2";
+                document.getElementById("step-size").value = "1";
                 document.getElementById("order").value = "3";
                 document.getElementById("turn-angle").value = "90";
                 document.getElementById("base-axiom").value = "F-F-F-F";
@@ -665,7 +688,7 @@
                 setRuleCount(1);
 
                 document.getElementById("step-size").value = "1";
-                document.getElementById("order").value = "2";
+                document.getElementById("order").value = "3";
                 document.getElementById("turn-angle").value = "60";
                 document.getElementById("base-axiom").value = "F++F++F";
 
@@ -698,7 +721,7 @@
             function generateKochIslandsAndLakes() {
                 setRuleCount(2);
 
-                document.getElementById("step-size").value = "1";
+                document.getElementById("step-size").value = "0.6";
                 document.getElementById("order").value = "2";
                 document.getElementById("turn-angle").value = "90";
                 document.getElementById("base-axiom").value = "F+F+F+F";
@@ -767,7 +790,8 @@
                     <option value="hilbert">Hilbert curve</option>
                     <option value="bush">Bush-like structure</option>
                     <option value="plant">Plant with flowers</option>
-                    <option value="dragon">Dragon curve</option>
+                    <option value="dragon-1">Dragon curve 1</option>
+                    <option value="dragon-2">Dragon curve 2</option>
                     <option value="sierpinski-1">Sierpinski gasket 1</option>
                     <option value="sierpinski-2">Sierpinski gasket 2</option>
                     <option value="koch-curve-1">Koch curve 1</option>
