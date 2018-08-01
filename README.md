@@ -26,7 +26,7 @@ As you can see, each of these primitives has a corresponding symbol. One benefit
 We can extend this turtle graphics system to 3-dimensions by augmenting the state variables of the turtle. In addition to adding a z-coordinate variable, we replace the heading angle α with a triplet of unit vectors: H, L, and U. Respectively, these vectors represent the heading, upwards-direction, and leftwards-direction of the turtle. Hence, when we want to rotate the orientation of the turtle, we perform the following matrix multiplication:
 
 <p align="center">
-  <img src="./img/rot-matrix.jpg" alt="Rotation matrix">
+  <img src="./img/rot-matrix.png" alt="Rotation matrix">
 </p>
 
 Where R is a 3×3 rotation matrix. Using this, we can add the following commands to the turtle graphics system.
