@@ -1,5 +1,9 @@
 # 3d-turtle-gfx
 
+<p align="center">
+  <img src="./img/interface.png" alt="Interface preview image">
+</p>
+
 ## Usage
 
 To use this program, simply clone or download the repository, then open `3d-turtle-gfx.html` in your web browser of choice.
