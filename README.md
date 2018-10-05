@@ -6,7 +6,9 @@
 
 ## Usage
 
-To use this program, simply clone or download the repository, then open `3d-turtle-gfx.html` in your web browser of choice.
+[Try it here!](https://andypasti.github.io/3d-turtle-gfx/)
+
+To use the program locally, simply clone or download the repository, then open `3d-turtle-gfx.html` in your web browser of choice.
 
 ## Background
 
