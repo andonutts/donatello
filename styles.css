@@ -9,12 +9,11 @@ body {
     margin: 0;
     overflow: hidden;
     background-color: #f2f2f2;
-    height: 100%;
 }
 
 canvas {
     display: block;
-    height: 100%;
+    z-index: 1;
 }
 
 #menu {
@@ -24,6 +23,7 @@ canvas {
     position: fixed;
     overflow: auto;
     background-color: rgba(255, 255, 255, 0.6);
+    z-index: 10;
 }
 
 #control-panel {
