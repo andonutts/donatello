@@ -8,10 +8,12 @@
 body {
     margin: 0;
     overflow: hidden;
+    background-color: #f2f2f2;
 }
 
 canvas {
     display: block;
+    touch-action: none;
 }
 
 #menu {
