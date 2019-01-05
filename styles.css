@@ -9,11 +9,12 @@ body {
     margin: 0;
     overflow: hidden;
     background-color: #f2f2f2;
+    height: 100%;
 }
 
 canvas {
     display: block;
-    overflow: hidden;
+    height: 100%;
 }
 
 #menu {
