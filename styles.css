@@ -1,0 +1,56 @@
+#open-menu-button, #close-menu-button {
+    position: absolute;
+    width: 3em;
+    height: 3em;
+    text-align: center;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+}
+
+#menu {
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    overflow: auto;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+#control-panel {
+    margin-top: 30px;
+    padding: 10px;
+}
+
+h1 {
+    margin-top: 10px;
+}
+
+label > span {
+    float: left;
+    width: 200px;
+}
+
+label > input {
+    width: 60px;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.symbol-input {
+    width: 20px;
+    margin-right: 5px;
+    text-align: center;
+}
+
+.rule-input {
+    width: 200px;
+}
