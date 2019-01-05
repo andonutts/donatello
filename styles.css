@@ -21,7 +21,7 @@ canvas {
     height: 100%;
     width: 100%;
     position: fixed;
-    overflow: auto;
+    overflow-y: scroll;
     background-color: rgba(255, 255, 255, 0.6);
     z-index: 10;
     -webkit-overflow-scrolling: touch;
