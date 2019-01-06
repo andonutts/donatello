@@ -9,7 +9,6 @@ body {
     margin: 0;
     overflow: hidden;
     background-color: #f2f2f2;
-    overscroll-behavior: none;
 }
 
 canvas {
@@ -25,8 +24,7 @@ canvas {
     overflow-y: scroll;
     background-color: rgba(255, 255, 255, 0.6);
     z-index: 10;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
+    overscroll-behavior: contain;
 }
 
 #control-panel {

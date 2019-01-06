@@ -89,7 +89,8 @@ function addEventListeners() {
         }
     }
 
-    window.addEventListener( 'resize', onWindowResize, false );
+    window.addEventListener("resize", onWindowResize, false);
+    window.addEventListener("orientationchange", onWindowResize, false);
 }
 
 function generateModel() {
