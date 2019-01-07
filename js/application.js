@@ -11,9 +11,6 @@ window.onload = function() {
 }
 
 function init() {
-    var canvasWidth = 512;
-    var canvasHeight = 512;
-
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -432,6 +429,10 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
+
+    var canvasWidth = document.getElementsByClassName("canvas")[0].getAttribute("width");
+    var canvasHeight = document.getElementsByClassName("canvas")[0].getAttribute("height");
+    document.getElementById("debug-text").innerHTML = "width = " + canvasWidth + ", height = " + canvasHeight;
 }
 
 function openControlPanel() {
