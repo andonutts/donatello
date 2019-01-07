@@ -432,10 +432,7 @@ function onWindowResize() {
 
     var canvasWidth = document.getElementsByTagName("canvas")[0].getAttribute("width");
     var canvasHeight = document.getElementsByTagName("canvas")[0].getAttribute("height");
-    document.getElementById("debug-text").innerHTML = "window width = " + window.innerWidth + ", window height = " + window.innerHeight;
-
-    renderer.domElement.width = "100%";
-    renderer.domElement.height = "100%";
+    document.getElementById("debug-text").innerHTML = "window width = " + window.innerWidth + ", window height = " + window.innerHeight + "; canvas width = " + canvasWidth + ", canvas height = " + canvasHeight;
 }
 
 function openControlPanel() {
