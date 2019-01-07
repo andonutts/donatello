@@ -13,7 +13,7 @@ window.onload = function() {
 function init() {
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( window.innerWidth, window.innerHeight, false );
     renderer.setClearColor( 0xf2f2f2, 1.0 );
 
     document.body.appendChild( renderer.domElement );
@@ -428,7 +428,7 @@ function adjustDeleteButtonVisibility() {
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( window.innerWidth, window.innerHeight , false);
 
     var canvasWidth = document.getElementsByTagName("canvas")[0].getAttribute("width");
     var canvasHeight = document.getElementsByTagName("canvas")[0].getAttribute("height");
