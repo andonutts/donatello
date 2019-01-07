@@ -430,8 +430,8 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
 
-    var canvasWidth = document.getElementsByName("canvas")[0].getAttribute("width");
-    var canvasHeight = document.getElementsByName("canvas")[0].getAttribute("height");
+    var canvasWidth = document.getElementsByTagName("canvas")[0].getAttribute("width");
+    var canvasHeight = document.getElementsByTagName("canvas")[0].getAttribute("height");
     document.getElementById("debug-text").innerHTML = "width = " + canvasWidth + ", height = " + canvasHeight;
 }
 
