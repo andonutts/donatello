@@ -16,7 +16,8 @@ body {
 
 canvas {
     display: block;
-    z-index: 1;
+    width: 100vw;
+    height: 100vh;
 }
 
 #menu {
@@ -26,7 +27,6 @@ canvas {
     position: fixed;
     overflow-y: scroll;
     background-color: rgba(255, 255, 255, 0.6);
-    z-index: 10;
 }
 
 #control-panel {
