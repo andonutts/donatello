@@ -432,7 +432,7 @@ function onWindowResize() {
 
     var canvasWidth = document.getElementsByTagName("canvas")[0].getAttribute("width");
     var canvasHeight = document.getElementsByTagName("canvas")[0].getAttribute("height");
-    document.getElementById("debug-text").innerHTML = "width = " + canvasWidth + ", height = " + canvasHeight;
+    document.getElementById("debug-text").innerHTML = "window width = " + window.innerWidth + ", window height = " + window.innerHeight;
 }
 
 function openControlPanel() {
