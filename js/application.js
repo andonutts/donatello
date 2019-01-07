@@ -426,19 +426,16 @@ function adjustDeleteButtonVisibility() {
 }
 
 function onWindowResize() {
-    var width = renderer.domElement.clientWidth;
-    var height = renderer.domElement.clientHeight;
-
-    // camera.aspect = window.innerWidth / window.innerHeight;
-    camera.aspect = width / height;
+    camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    // renderer.setSize( window.innerWidth, window.innerHeight );
-    renderer.setSize( width, height );
+    renderer.setSize( window.innerWidth, window.innerHeight );
 
-    
-    
-    // renderer.domElement.width = width;
-    // renderer.domElement.height = height;
+    var canvasWidth = document.getElementsByTagName("canvas")[0].getAttribute("width");
+    var canvasHeight = document.getElementsByTagName("canvas")[0].getAttribute("height");
+    document.getElementById("debug-text").innerHTML = "window width = " + window.innerWidth + ", window height = " + window.innerHeight;
+
+    renderer.domElement.width = "100%";
+    renderer.domElement.height = "100%";
 }
 
 function openControlPanel() {
