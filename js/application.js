@@ -85,9 +85,6 @@ function addEventListeners() {
             default:
         }
     }
-
-    window.addEventListener("resize", onWindowResize, false);
-    window.addEventListener("orientationchange", onWindowResize, false);
 }
 
 function generateModel() {
@@ -142,6 +139,13 @@ function createGeometry(vertices, leafVertices, petalVertices) {
 
 function animate() {
     requestAnimationFrame( animate );
+
+    if (resizeRendererToDisplaySize(renderer)) {
+        const canvas = renderer.domElement;
+        camera.aspect = client.clientWidth / client.clientHeight;
+        camera.updateProjectionMatrix();
+    }
+
     renderer.render( scene, camera );
 }
 
@@ -425,14 +429,17 @@ function adjustDeleteButtonVisibility() {
     }
 }
 
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight , false);
+function resizeRendererToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    const needResize = canvas.width !== width || canvas.height !== height;
 
-    var canvasWidth = document.getElementsByTagName("canvas")[0].getAttribute("width");
-    var canvasHeight = document.getElementsByTagName("canvas")[0].getAttribute("height");
-    document.getElementById("debug-text").innerHTML = "window width = " + window.innerWidth + ", window height = " + window.innerHeight + "; canvas width = " + canvasWidth + ", canvas height = " + canvasHeight;
+    if (needResize) {
+        renderer.setSize(width, height, false);
+    }
+
+    return needResize;
 }
 
 function openControlPanel() {
