@@ -1,12 +1,9 @@
-#open-menu-button, #close-menu-button {
-    position: fixed;
+#menu-button {
+    position: absolute;
     width: 3em;
     height: 3em;
     text-align: center;
-}
-
-#debug-text {
-    position: absolute;
+    z-index: 100;
 }
 
 body {
@@ -16,17 +13,20 @@ body {
 
 canvas {
     display: block;
-    width: 100vw;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
 }
 
 #menu {
-    display: none;
     height: 100%;
-    width: 100%;
+    width: 0px;
     position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
     overflow-y: scroll;
-    background-color: rgba(255, 255, 255, 0.6);
+    overflow-x: hidden;
+    background-color: #f2f2f2;
 }
 
 #control-panel {
@@ -53,10 +53,9 @@ label > input {
 
 .symbol-input {
     width: 20px;
-    margin-right: 5px;
     text-align: center;
 }
 
 .rule-input {
-    width: 200px;
+    width: 70%;
 }

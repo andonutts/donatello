@@ -87,6 +87,17 @@ function addEventListeners() {
             default:
         }
     }
+
+    var menuButton = document.getElementById("menu-button");
+    var menu = document.getElementById("menu");
+
+    menuButton.addEventListener('click', function (event) {
+        if (menu.style.width == "0px" || !menu.style.width) {
+            openControlPanel();
+        } else {
+            closeControlPanel();
+        }
+    });
 }
 
 function generateModel() {
@@ -444,11 +455,13 @@ function resizeRendererToDisplaySize(renderer) {
 }
 
 function openControlPanel() {
-    document.getElementById("menu").style.display = "block";
+    document.getElementById("menu").style.width = "400px";
+    document.getElementById("canvas-container").style.marginLeft = "400px";
 }
 
 function closeControlPanel() {
-    document.getElementById("menu").style.display = "none";
+    document.getElementById("menu").style.width = "0px";
+    document.getElementById("canvas-container").style.marginLeft = "0px";
 }
 
 function generateHilbertCurve() {
