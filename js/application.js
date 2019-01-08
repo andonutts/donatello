@@ -17,7 +17,7 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight, false );
     renderer.setClearColor( 0xf2f2f2, 1.0 );
 
-    document.body.appendChild( renderer.domElement );
+    document.getElementById("canvas-container").appendChild( renderer.domElement );
 
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
     camera.position.set( 50, 50, 50 );
