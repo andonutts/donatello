@@ -456,12 +456,13 @@ function resizeRendererToDisplaySize(renderer) {
 
 function openControlPanel() {
     document.getElementById("menu").style.width = "400px";
-    document.getElementById("canvas-container").style.marginLeft = "400px";
+    document.getElementById("canvas-container").style.left = "400px";
+
 }
 
 function closeControlPanel() {
     document.getElementById("menu").style.width = "0px";
-    document.getElementById("canvas-container").style.marginLeft = "0px";
+    document.getElementById("canvas-container").style.left = "0px";
 }
 
 function generateHilbertCurve() {

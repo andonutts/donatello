@@ -16,6 +16,9 @@ body {
 
 #canvas-container {
     height: 100vh;
+    right: 0;
+    left: 0;
+    position: fixed;
 }
 
 canvas {
