@@ -1,9 +1,13 @@
+.top-container {
+    position: fixed;
+    z-index: 100;
+}
+
 #menu-button {
     position: absolute;
     width: 3em;
     height: 3em;
     text-align: center;
-    z-index: 100;
 }
 
 body {
