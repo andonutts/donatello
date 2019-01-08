@@ -34,6 +34,7 @@ canvas {
     overflow-y: scroll;
     overflow-x: hidden;
     background-color: #f2f2f2;
+    -webkit-overflow-scrolling: touch;
 }
 
 #control-panel {
