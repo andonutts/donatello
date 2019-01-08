@@ -445,10 +445,12 @@ function resizeRendererToDisplaySize(renderer) {
 
 function openControlPanel() {
     document.getElementById("menu").style.display = "block";
+    document.getElementById("canvas-container").style.display = "none";
 }
 
 function closeControlPanel() {
     document.getElementById("menu").style.display = "none";
+    document.getElementById("canvas-container").style.display = "block";
 }
 
 function generateHilbertCurve() {
