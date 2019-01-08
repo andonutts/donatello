@@ -142,7 +142,7 @@ function animate() {
 
     if (resizeRendererToDisplaySize(renderer)) {
         const canvas = renderer.domElement;
-        camera.aspect = client.clientWidth / client.clientHeight;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
     }
 
