@@ -3,6 +3,7 @@ if ( !Detector.webgl ) {
 }
 
 var renderer, scene, camera, controls;
+var ruleListContainer;
 
 window.onload = function() {
     init();
@@ -30,6 +31,7 @@ function init() {
     controls.minDistance = 10;
     controls.maxDistance = 500;
 
+    ruleListContainer = document.getElementById("rule-list-container");
     addEventListeners();
 
     addRule();
@@ -389,39 +391,38 @@ function drawLSystem(turtle, command) {
 }
 
 function addRule() {
-    var ruleTable = document.getElementById("rule-table");
-    var row = ruleTable.insertRow();
-    row.classList.add("rule");
-    var symbolCell = row.insertCell();
-    var ruleCell = row.insertCell();
-    var deleteCell = row.insertCell();
+    var rule = document.createElement("div");
+    ruleListContainer.appendChild(rule);
+    rule.classList.add("rule");
 
-    symbolCell.innerHTML = '<input type="text" class="symbol-input" maxlength="1" />&#8594;';
-    ruleCell.innerHTML = '<input type="text" class="rule-input" />';
-    deleteCell.innerHTML = '<button onclick="deleteRule(this)" class="delete-rule-button">&times;</button>'
+    rule.innerHTML = 
+        '<input type="text" class="symbol-input" maxlength="1" /> \
+        <span class="rule-arrow">&#8594;</span> \
+        <input type="text" class="rule-input" /> \
+        <button onclick="deleteRule(this.parentNode)" class="delete-rule-button">&times;</button>';
 
     adjustDeleteButtonVisibility();
 }
 
 function deleteRule(r) {
-    var i = r.parentNode.parentNode.rowIndex;
-    document.getElementById("rule-table").deleteRow(i);
+    ruleListContainer.removeChild(r);
 
     adjustDeleteButtonVisibility();
 }
 
 function setRuleCount(count) {
-    while(document.querySelectorAll("tr.rule").length < count) {
+    var ruleList = ruleListContainer.childNodes;
+    while(ruleList.length < count) {
         addRule();
     }
-    while(document.querySelectorAll("tr.rule").length > count) {
-        var lastRow = document.querySelectorAll("tr.rule").length - 1;
-        document.getElementById("rule-table").deleteRow(lastRow);
+    while(ruleList.length > count) {
+        var lastRuleIndex = ruleList.length - 1;
+        ruleListContainer.removeChild(ruleList[lastRuleIndex]);
     }
 }
 
 function adjustDeleteButtonVisibility() {
-    var ruleList = document.querySelectorAll("tr.rule");
+    var ruleList = ruleListContainer.childNodes;
     if (ruleList.length > 1) {
         ruleList[0].querySelectorAll("button.delete-rule-button")[0].removeAttribute("disabled");
     } else {
