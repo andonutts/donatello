@@ -92,7 +92,7 @@ function addEventListeners() {
     var menu = document.getElementById("menu");
 
     menuButton.addEventListener('click', function (event) {
-        if (menu.style.width == "0px" || !menu.style.width) {
+        if (menu.style.display == "none" || !menu.style.display) {
             openControlPanel();
         } else {
             closeControlPanel();
@@ -455,14 +455,12 @@ function resizeRendererToDisplaySize(renderer) {
 }
 
 function openControlPanel() {
-    document.getElementById("menu").style.width = "400px";
-    document.getElementById("canvas-container").style.left = "400px";
+    document.getElementById("menu").style.display = "block";
 
 }
 
 function closeControlPanel() {
-    document.getElementById("menu").style.width = "0px";
-    document.getElementById("canvas-container").style.left = "0px";
+    document.getElementById("menu").style.display = "none";
 }
 
 function generateHilbertCurve() {
