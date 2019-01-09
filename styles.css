@@ -15,7 +15,8 @@ body {
 }
 
 #canvas-container {
-    height: 100vh;
+    top: 0;
+    bottom: 0;
     right: 0;
     left: 0;
     position: fixed;
@@ -30,9 +31,8 @@ canvas {
 #menu {
     height: 100%;
     width: 0px;
-    position: fixed;
+    position: absolute;
     z-index: 1;
-    top: 0;
     left: 0;
     overflow-y: scroll;
     overflow-x: hidden;
