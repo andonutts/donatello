@@ -43,6 +43,7 @@ canvas {
 }
 
 #control-panel {
+    max-width: 325px;
     margin-top: 30px;
     padding: 10px;
 }
@@ -51,26 +52,35 @@ h1 {
     margin-top: 10px;
 }
 
-label > span {
+.parameter > span {
     float: left;
     width: 200px;
 }
 
-label > input {
-    width: 60px;
+.parameter > input {
+    float: right;
+    width: 5em;
     padding: 0;
-    -webkit-box-sizing: border-box;
+    /* -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    box-sizing: border-box;
+    box-sizing: border-box; */
+}
+
+.rule {
+    display: flex;
 }
 
 .symbol-input {
-    width: 20px;
+    width: 1.5em;
     text-align: center;
 }
 
+.rule-arrow {
+    margin: 0 0.5em;
+}
+
 .rule-input {
-    width: 60%;
+    flex-grow: 1;
 }
 
 @media only screen and (min-width: 650px) {

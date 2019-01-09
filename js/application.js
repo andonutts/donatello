@@ -32,10 +32,13 @@ function init() {
     controls.maxDistance = 500;
 
     ruleListContainer = document.getElementById("rule-list-container");
-    addEventListeners();
-
+    
     addRule();
+    
     document.getElementById("preset-select").value = "";
+    document.getElementById("menu").style.display = "none";
+    
+    addEventListeners();
 }
 
 function addEventListeners() {
@@ -88,14 +91,14 @@ function addEventListeners() {
         }
     }
 
-    var menuButton = document.getElementById("menu-button");
     var menu = document.getElementById("menu");
+    var menuButton = document.getElementById("menu-button");
 
     menuButton.addEventListener('click', function (event) {
-        if (menu.style.display == "none" || !menu.style.display) {
-            openControlPanel();
+        if (menu.style.display == "none") {
+            menu.style.display = "block";
         } else {
-            closeControlPanel();
+            menu.style.display = "none";
         }
     });
 }
@@ -112,8 +115,8 @@ function generateModel() {
     controls.reset();
 
     var stepSize = document.getElementById("step-size").value;
-    var iterations = document.getElementById("order").value;
-    var turnAngle = document.getElementById("turn-angle").value;
+    var iterations = document.getElementById("iterations").value;
+    var turnAngle = document.getElementById("rotation-angle").value;
 
     var rules = [];
     var command = document.getElementById("base-axiom").value;
@@ -454,21 +457,12 @@ function resizeRendererToDisplaySize(renderer) {
     return needResize;
 }
 
-function openControlPanel() {
-    document.getElementById("menu").style.display = "block";
-
-}
-
-function closeControlPanel() {
-    document.getElementById("menu").style.display = "none";
-}
-
 function generateHilbertCurve() {
     setRuleCount(4);
 
     document.getElementById("step-size").value = "4";
-    document.getElementById("order").value = "2";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "2";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "A";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -493,8 +487,8 @@ function generateBush() {
     setRuleCount(4);
 
     document.getElementById("step-size").value = "2";
-    document.getElementById("order").value = "4";
-    document.getElementById("turn-angle").value = "22.5";
+    document.getElementById("iterations").value = "4";
+    document.getElementById("rotation-angle").value = "22.5";
     document.getElementById("base-axiom").value = "A";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -519,8 +513,8 @@ function generatePlant() {
     setRuleCount(7);
 
     document.getElementById("step-size").value = "1";
-    document.getElementById("order").value = "4";
-    document.getElementById("turn-angle").value = "18";
+    document.getElementById("iterations").value = "4";
+    document.getElementById("rotation-angle").value = "18";
     document.getElementById("base-axiom").value = "A";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -554,8 +548,8 @@ function generateDragon1() {
     setRuleCount(2);
 
     document.getElementById("step-size").value = "1";
-    document.getElementById("order").value = "10";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "10";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "FX";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -574,8 +568,8 @@ function generateDragon2() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "2";
-    document.getElementById("order").value = "5";
-    document.getElementById("turn-angle").value = "30";
+    document.getElementById("iterations").value = "5";
+    document.getElementById("rotation-angle").value = "30";
     document.getElementById("base-axiom").value = "F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -591,8 +585,8 @@ function generateSierpinskiGasket1() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "1.5";
-    document.getElementById("order").value = "4";
-    document.getElementById("turn-angle").value = "120";
+    document.getElementById("iterations").value = "4";
+    document.getElementById("rotation-angle").value = "120";
     document.getElementById("base-axiom").value = "F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -608,8 +602,8 @@ function generateSierpinskiGasket2() {
     setRuleCount(3);
 
     document.getElementById("step-size").value = "1.5";
-    document.getElementById("order").value = "4";
-    document.getElementById("turn-angle").value = "60";
+    document.getElementById("iterations").value = "4";
+    document.getElementById("rotation-angle").value = "60";
     document.getElementById("base-axiom").value = "FX";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -631,8 +625,8 @@ function generateKochCurve1() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "2";
-    document.getElementById("order").value = "3";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "3";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "F-F-F-F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -648,8 +642,8 @@ function generateKochCurve2() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "3";
-    document.getElementById("order").value = "3";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "3";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "F-F-F-F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -665,8 +659,8 @@ function generateKochCurve3() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "1";
-    document.getElementById("order").value = "3";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "3";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "F-F-F-F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -682,8 +676,8 @@ function generateKochSnowflake() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "1";
-    document.getElementById("order").value = "3";
-    document.getElementById("turn-angle").value = "60";
+    document.getElementById("iterations").value = "3";
+    document.getElementById("rotation-angle").value = "60";
     document.getElementById("base-axiom").value = "F++F++F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -699,8 +693,8 @@ function generateKochIsland() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "1";
-    document.getElementById("order").value = "2";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "2";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "F-F-F-F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -716,8 +710,8 @@ function generateKochIslandsAndLakes() {
     setRuleCount(2);
 
     document.getElementById("step-size").value = "0.6";
-    document.getElementById("order").value = "2";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "2";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "F+F+F+F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -736,8 +730,8 @@ function generate2dTree() {
     setRuleCount(2);
 
     document.getElementById("step-size").value = "0.2";
-    document.getElementById("order").value = "7";
-    document.getElementById("turn-angle").value = "20";
+    document.getElementById("iterations").value = "7";
+    document.getElementById("rotation-angle").value = "20";
     document.getElementById("base-axiom").value = "X";
 
     symbolList = document.querySelectorAll("input.symbol-input");
