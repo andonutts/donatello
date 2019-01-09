@@ -3,16 +3,16 @@
     z-index: 100;
 }
 
+body {
+    margin: 0;
+    background-color: #f2f2f2;
+}
+
 #menu-button {
     position: absolute;
     width: 3em;
     height: 3em;
     text-align: center;
-}
-
-body {
-    margin: 0;
-    background-color: #f2f2f2;
 }
 
 #canvas-container {
@@ -24,22 +24,22 @@ body {
 }
 
 canvas {
-    display: block;
     height: 100%;
     width: 100%;
+    display: block;
 }
 
 #menu {
     height: 100%;
     width: 100%;
+    left: 0;
     position: absolute;
     display: none;
+    background-color: rgba(255, 255, 255, 0.6);
     z-index: 1;
-    left: 0;
     overflow-y: scroll;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    background-color: rgba(255, 255, 255, 0.6);
 }
 
 #control-panel {
@@ -70,10 +70,10 @@ label > input {
 }
 
 .rule-input {
-    width: 70%;
+    width: 60%;
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 650px) {
     #menu {
         width: 325px;
     }
