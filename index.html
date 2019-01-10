@@ -18,39 +18,40 @@
         <div id="menu">
             <div id="control-panel">
                 <h1>3d-turtle-gfx</h1>
-                <label class="parameter"><span>d, step size</span><input type="number" id="step-size" min="0" step="0.1" /></label><br />
-                <label class="parameter"><span>n, iterations</span><input type="number" id="iterations" min="0" /></label><br />
-                <label class="parameter"><span>&delta;, rotation angle (degrees)</span><input type="number" id="rotation-angle" step="0.1"/></label><br />
+                <div>
+                    <select id="preset-select">
+                        <option value="">Load an example...</option>
+                        <option value="hilbert">Hilbert curve</option>
+                        <option value="bush">Bush-like structure</option>
+                        <option value="plant">Plant with flowers</option>
+                        <option value="dragon-1">Dragon curve 1</option>
+                        <option value="dragon-2">Dragon curve 2</option>
+                        <option value="sierpinski-1">Sierpinski gasket 1</option>
+                        <option value="sierpinski-2">Sierpinski gasket 2</option>
+                        <option value="koch-curve-1">Koch curve 1</option>
+                        <option value="koch-curve-2">Koch curve 2</option>
+                        <option value="koch-curve-3">Koch curve 3</option>
+                        <option value="koch-snowflake">Koch snowflake</option>
+                        <option value="koch-island">Koch island</option>
+                        <option value="koch-island-lake">Koch islands and lakes</option>
+                        <option value="2d-tree">2D tree</option>
+                    </select>
+                </div>
+                <br />
+                <div>
+                    <label class="parameter"><span>d, step size</span><input type="number" id="step-size" min="0" step="0.1" /></label><br />
+                    <label class="parameter"><span>n, iterations</span><input type="number" id="iterations" min="0" /></label><br />
+                    <label class="parameter"><span>&delta;, rotation angle (degrees)</span><input type="number" id="rotation-angle" step="0.1"/></label><br />
+                </div>
                 <br />
                 <label><span>Base axiom</span></label><br />
                 <input type="text" id="base-axiom" /><br />
                 <br />
                 <label>Production rules</label>
                 <div id="rule-list-container"></div>
-                <button onclick="addRule()">+</button><br />
+                <button class="add-rule-button" onclick="addRule()">+</button><br />
                 <br />
                 <button onclick="generateModel()">Generate</button>
-                <br />
-    
-                <br />
-
-                <select id="preset-select">
-                    <option value="">Load an example...</option>
-                    <option value="hilbert">Hilbert curve</option>
-                    <option value="bush">Bush-like structure</option>
-                    <option value="plant">Plant with flowers</option>
-                    <option value="dragon-1">Dragon curve 1</option>
-                    <option value="dragon-2">Dragon curve 2</option>
-                    <option value="sierpinski-1">Sierpinski gasket 1</option>
-                    <option value="sierpinski-2">Sierpinski gasket 2</option>
-                    <option value="koch-curve-1">Koch curve 1</option>
-                    <option value="koch-curve-2">Koch curve 2</option>
-                    <option value="koch-curve-3">Koch curve 3</option>
-                    <option value="koch-snowflake">Koch snowflake</option>
-                    <option value="koch-island">Koch island</option>
-                    <option value="koch-island-lake">Koch islands and lakes</option>
-                    <option value="2d-tree">2D tree</option>
-                </select>
             </div>
         </div>
         <div id="canvas-container"></div>

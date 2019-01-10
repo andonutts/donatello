@@ -12,12 +12,13 @@ body {
     position: absolute;
     text-align: center;
     padding: 0.5em 0.7em;
-    font-size: 1.5em;
+    font-size: 1.3em;
     border: none;
     /* color: #f2f2f2; */
     background-color: rgba(255, 255, 255, 0.0);
     color: #4c4c4c;
     cursor: pointer;
+    outline: none;
 }
 
 #canvas-container {
@@ -60,7 +61,6 @@ h1 {
 
 .parameter > span {
     float: left;
-    width: 200px;
 }
 
 .parameter > input {
@@ -77,16 +77,38 @@ h1 {
 }
 
 .symbol-input {
+    margin: auto;
     width: 1.5em;
     text-align: center;
 }
 
 .rule-arrow {
-    margin: 0 0.5em;
+    margin: auto 0.5em;
+    vertical-align: middle;
 }
 
 .rule-input {
+    margin: auto;
     flex-grow: 1;
+}
+
+.delete-rule-button, .add-rule-button {
+    margin: auto;
+    text-align: center;
+    font-size: 1.5em;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.0);
+    cursor: pointer;
+    outline: none;
+}
+
+.delete-rule-button {
+    color:  #e74c3c;
+}
+
+.add-rule-button {
+    padding: 0 0.18em;
+    color:  #000000;
 }
 
 @media only screen and (min-width: 650px) {

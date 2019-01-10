@@ -7,7 +7,8 @@ var ruleListContainer;
 
 window.onload = function() {
     init();
-    generateHilbertCurve();
+    loadHilbertCurve();
+    generateModel();
     animate();
 }
 
@@ -46,46 +47,46 @@ function addEventListeners() {
     presetSelect.onchange = function() {
         switch(presetSelect.value) {
             case "hilbert":
-                generateHilbertCurve();
+                loadHilbertCurve();
                 break;
             case "bush":
-                generateBush();
+                loadBush();
                 break;
             case "plant":
-                generatePlant();
+                loadPlant();
                 break;
             case "dragon-1":
-                generateDragon1();
+                loadDragon1();
                 break;
             case "dragon-2":
-                generateDragon2();
+                loadDragon2();
                 break;
             case "sierpinski-1":
-                generateSierpinskiGasket1();
+                loadSierpinskiGasket1();
                 break;
             case "sierpinski-2":
-                generateSierpinskiGasket2();
+                loadSierpinskiGasket2();
                 break;
             case "koch-curve-1":
-                generateKochCurve1();
+                loadKochCurve1();
                 break;
             case "koch-curve-2":
-                generateKochCurve2();
+                loadKochCurve2();
                 break;
             case "koch-curve-3":
-                generateKochCurve3();
+                loadKochCurve3();
                 break;
             case "koch-snowflake":
-                generateKochSnowflake();
+                loadKochSnowflake();
                 break;
             case "koch-island":
-                generateKochIsland();
+                loadKochIsland();
                 break;
             case "koch-island-lake":
-                generateKochIslandsAndLakes();
+                loadKochIslandsAndLakes();
                 break;
             case "2d-tree":
-                generate2dTree();
+                load2dTree();
                 break;
             default:
         }
@@ -457,7 +458,7 @@ function resizeRendererToDisplaySize(renderer) {
     return needResize;
 }
 
-function generateHilbertCurve() {
+function loadHilbertCurve() {
     setRuleCount(4);
 
     document.getElementById("step-size").value = "4";
@@ -479,11 +480,9 @@ function generateHilbertCurve() {
 
     symbolList[3].value = "D";
     ruleList[3].value = "|CFB-F+B|FA&F^A&&FB-F+B|FC//";
-
-    generateModel();
 }
 
-function generateBush() {
+function loadBush() {
     setRuleCount(4);
 
     document.getElementById("step-size").value = "2";
@@ -505,11 +504,9 @@ function generateBush() {
 
     symbolList[3].value = "L";
     ruleList[3].value = "[^^-L]";
-
-    generateModel();
 }
 
-function generatePlant() {
+function loadPlant() {
     setRuleCount(7);
 
     document.getElementById("step-size").value = "1";
@@ -540,11 +537,9 @@ function generatePlant() {
 
     symbolList[6].value = "W";
     ruleList[6].value = "['^F][&&&&P]";
-
-    generateModel();
 }
 
-function generateDragon1() {
+function loadDragon1() {
     setRuleCount(2);
 
     document.getElementById("step-size").value = "1";
@@ -560,11 +555,9 @@ function generateDragon1() {
 
     symbolList[1].value = "Y";
     ruleList[1].value = "-FX-Y";
-
-    generateModel();
 }
 
-function generateDragon2() {
+function loadDragon2() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "2";
@@ -577,11 +570,9 @@ function generateDragon2() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "-F++++F----F+";
-
-    generateModel();
 }
 
-function generateSierpinskiGasket1() {
+function loadSierpinskiGasket1() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "1.5";
@@ -594,11 +585,9 @@ function generateSierpinskiGasket1() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "F+F-F-F+F";
-
-    generateModel();
 }
 
-function generateSierpinskiGasket2() {
+function loadSierpinskiGasket2() {
     setRuleCount(3);
 
     document.getElementById("step-size").value = "1.5";
@@ -617,11 +606,9 @@ function generateSierpinskiGasket2() {
 
     symbolList[2].value = "Y";
     ruleList[2].value = "-FX+FY+FX-";
-
-    generateModel();
 }
 
-function generateKochCurve1() {
+function loadKochCurve1() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "2";
@@ -634,11 +621,9 @@ function generateKochCurve1() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "FF-F+F-F-FF";
-
-    generateModel();
 }
 
-function generateKochCurve2() {
+function loadKochCurve2() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "3";
@@ -651,11 +636,9 @@ function generateKochCurve2() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "F-FF--F-F";
-
-    generateModel();
 }
 
-function generateKochCurve3() {
+function loadKochCurve3() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "1";
@@ -668,11 +651,9 @@ function generateKochCurve3() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "FF-F-F-F-FF";
-
-    generateModel();
 }
 
-function generateKochSnowflake() {
+function loadKochSnowflake() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "1";
@@ -685,11 +666,9 @@ function generateKochSnowflake() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "F-F++F-F";
-
-    generateModel();
 }
 
-function generateKochIsland() {
+function loadKochIsland() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "1";
@@ -702,11 +681,9 @@ function generateKochIsland() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "F-F+F+FF-F-F+F";
-
-    generateModel();
 }
 
-function generateKochIslandsAndLakes() {
+function loadKochIslandsAndLakes() {
     setRuleCount(2);
 
     document.getElementById("step-size").value = "0.6";
@@ -722,11 +699,9 @@ function generateKochIslandsAndLakes() {
 
     symbolList[1].value = "f";
     ruleList[1].value = "ffffff";
-
-    generateModel();
 }
 
-function generate2dTree() {
+function load2dTree() {
     setRuleCount(2);
 
     document.getElementById("step-size").value = "0.2";
@@ -742,6 +717,4 @@ function generate2dTree() {
 
     symbolList[1].value = "F";
     ruleList[1].value = "FF";
-
-    generateModel();
 }
