@@ -91,7 +91,7 @@ h1 {
 }
 
 .delete-rule-button, .add-rule-button {
-    margin: auto 0.1em;
+    margin: auto 0.0;
     text-align: center;
     font-size: 1.5em;
     border: none;

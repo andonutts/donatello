@@ -415,14 +415,10 @@ function addRule() {
         <span class="rule-arrow">&#8594;</span> \
         <input type="text" class="rule-input" /> \
         <button onclick="deleteRule(this.parentNode)" class="delete-rule-button">&times;</button>';
-
-    adjustDeleteButtonVisibility();
 }
 
 function deleteRule(r) {
     ruleListContainer.removeChild(r);
-
-    adjustDeleteButtonVisibility();
 }
 
 function setRuleCount(count) {
@@ -433,15 +429,6 @@ function setRuleCount(count) {
     while(ruleList.length > count) {
         var lastRuleIndex = ruleList.length - 1;
         ruleListContainer.removeChild(ruleList[lastRuleIndex]);
-    }
-}
-
-function adjustDeleteButtonVisibility() {
-    var ruleList = ruleListContainer.childNodes;
-    if (ruleList.length > 1) {
-        ruleList[0].querySelectorAll("button.delete-rule-button")[0].removeAttribute("disabled");
-    } else {
-        ruleList[0].querySelectorAll("button.delete-rule-button")[0].setAttribute("disabled", "disabled");
     }
 }
 
