@@ -10,9 +10,14 @@ body {
 
 #menu-button {
     position: absolute;
-    width: 3em;
-    height: 3em;
     text-align: center;
+    padding: 0.5em 0.7em;
+    font-size: 1.5em;
+    border: none;
+    /* color: #f2f2f2; */
+    background-color: rgba(255, 255, 255, 0.0);
+    color: #4c4c4c;
+    cursor: pointer;
 }
 
 #canvas-container {
@@ -30,8 +35,9 @@ canvas {
 }
 
 #menu {
-    height: 100%;
     width: 100%;
+    top: 0;
+    bottom: 0;
     left: 0;
     position: absolute;
     display: none;
