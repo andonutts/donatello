@@ -14,7 +14,6 @@ body {
     padding: 0.5em 0.7em;
     font-size: 1.3em;
     border: none;
-    /* color: #f2f2f2; */
     background-color: rgba(255, 255, 255, 0.0);
     color: #4c4c4c;
     cursor: pointer;
@@ -93,7 +92,7 @@ h1 {
 }
 
 .delete-rule-button, .add-rule-button {
-    margin: auto;
+    margin: auto 0.1em;
     text-align: center;
     font-size: 1.5em;
     border: none;
