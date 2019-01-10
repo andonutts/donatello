@@ -57,6 +57,16 @@ h1 {
     margin-top: 10px;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 .parameter > span {
     float: left;
 }
@@ -98,6 +108,7 @@ h1 {
     background-color: rgba(255, 255, 255, 0.0);
     cursor: pointer;
     outline: none;
+    padding-bottom: 0.1em;
 }
 
 .delete-rule-button {
