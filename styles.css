@@ -8,7 +8,7 @@ body {
     background-color: #f2f2f2;
 }
 
-#menu-button {
+#sidebar-button {
     position: absolute;
     text-align: center;
     padding: 0.5em 0.7em;
@@ -34,7 +34,7 @@ canvas {
     display: block;
 }
 
-#menu {
+#sidebar {
     width: 100%;
     top: 0;
     bottom: 0;
@@ -48,13 +48,20 @@ canvas {
     -webkit-overflow-scrolling: touch;
 }
 
-#control-panel {
-    margin-top: 30px;
+#menu {
+    margin-top: 3.0em;
     padding: 10px;
 }
 
-h1 {
-    margin-top: 10px;
+.menu-section {
+    display: inline-block;
+    width: 100%;
+    margin: 0.5em 0;
+}
+
+.parameter {
+    display: inline-block;
+    width: 100%;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -73,11 +80,20 @@ input[type="number"] {
 
 .parameter > input {
     float: right;
-    width: 5em;
+    width: 3.0em;
     padding: 0;
     /* -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box; */
+}
+
+#base-axiom-label {
+    float: left;
+}
+
+#base-axiom {
+    float: right;
+    width: 10.0em;
 }
 
 .rule {
@@ -102,13 +118,13 @@ input[type="number"] {
 
 .delete-rule-button, .add-rule-button {
     margin: auto 0.0;
+    padding: 0.0 0.25em;
     text-align: center;
     font-size: 1.5em;
     border: none;
     background-color: rgba(255, 255, 255, 0.0);
     cursor: pointer;
     outline: none;
-    padding-bottom: 0.1em;
 }
 
 .delete-rule-button {
@@ -121,7 +137,7 @@ input[type="number"] {
 }
 
 @media only screen and (min-width: 650px) {
-    #menu {
+    #sidebar {
         width: 325px;
     }
 }

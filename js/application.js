@@ -37,7 +37,7 @@ function init() {
     addRule();
     
     document.getElementById("preset-select").value = "";
-    document.getElementById("menu").style.display = "none";
+    document.getElementById("sidebar").style.display = "none";
     
     addEventListeners();
 }
@@ -92,14 +92,14 @@ function addEventListeners() {
         }
     }
 
-    var menu = document.getElementById("menu");
-    var menuButton = document.getElementById("menu-button");
+    var sidebar = document.getElementById("sidebar");
+    var sidebarButton = document.getElementById("sidebar-button");
 
-    menuButton.addEventListener('click', function (event) {
-        if (menu.style.display == "none") {
-            menu.style.display = "block";
+    sidebarButton.addEventListener('click', function (event) {
+        if (sidebar.style.display == "none") {
+            sidebar.style.display = "block";
         } else {
-            menu.style.display = "none";
+            sidebar.style.display = "none";
         }
     });
 }

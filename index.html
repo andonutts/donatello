@@ -13,12 +13,12 @@
         <script src="js/MV.js"></script>
         <script src="js/application.js"></script>
         <div class="top-container">
-            <button id="menu-button">&#9776;</button>
+            <button id="sidebar-button">&#9776;</button>
         </div>
-        <div id="menu">
-            <div id="control-panel">
+        <div id="sidebar">
+            <div id="menu">
                 <h1>3d-turtle-gfx</h1>
-                <div>
+                <div class="menu-section">
                     <select id="preset-select">
                         <option value="">Load an example...</option>
                         <option value="hilbert">Hilbert curve</option>
@@ -37,21 +37,23 @@
                         <option value="2d-tree">2D tree</option>
                     </select>
                 </div>
-                <br />
-                <div>
-                    <label class="parameter"><span>d, step size</span><input type="number" id="step-size" min="0" /></label><br />
-                    <label class="parameter"><span>n, iterations</span><input type="number" id="iterations" min="0" /></label><br />
-                    <label class="parameter"><span>&delta;, rotation angle (degrees)</span><input type="number" id="rotation-angle" /></label><br />
+                <div class="menu-section">
+                    <div class="parameter"><span>d, step size</span><input type="number" id="step-size" min="0" /></div>
+                    <div class="parameter"><span>n, iterations</span><input type="number" id="iterations" min="0" /></div>
+                    <div class="parameter"><span>&delta;, rotation angle (degrees)</span><input type="number" id="rotation-angle" /></div>
                 </div>
-                <br />
-                <label><span>Base axiom</span></label><br />
-                <input type="text" id="base-axiom" /><br />
-                <br />
-                <label>Production rules</label>
-                <div id="rule-list-container"></div>
-                <button class="add-rule-button" onclick="addRule()">+</button><br />
-                <br />
-                <button onclick="generateModel()">Generate</button>
+                <div class="menu-section">
+                    <label id="base-axiom-label">Base axiom</label>
+                    <input type="text" id="base-axiom" />
+                </div>
+                <div class="menu-section">
+                    <label>Production rules</label>
+                    <div id="rule-list-container"></div>
+                    <button class="add-rule-button" onclick="addRule()">+</button>
+                </div>
+                <div class="menu-section">
+                    <button onclick="generateModel()">Generate</button>
+                </div>
             </div>
         </div>
         <div id="canvas-container"></div>
