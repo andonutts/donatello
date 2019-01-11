@@ -130,7 +130,7 @@ input[type="number"] {
 }
 
 .delete-rule-button, .add-rule-button {
-    margin: auto 0.0;
+    margin: auto 0.25em;
     padding: 0.0 0.25em;
     text-align: center;
     font-size: 1.5em;
@@ -145,7 +145,9 @@ input[type="number"] {
 }
 
 .add-rule-button {
+    margin: auto;
     padding: 0 0.18em;
+    width: 2em;
     color:  #000000;
 }
 

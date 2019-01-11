@@ -414,7 +414,7 @@ function addRule() {
         '<input type="text" class="symbol-input" maxlength="1" /> \
         <span class="rule-arrow">&#8594;</span> \
         <input type="text" class="rule-input" /> \
-        <button onclick="deleteRule(this.parentNode)" class="delete-rule-button">&times;</button>';
+        <div onclick="deleteRule(this.parentNode)" class="delete-rule-button">&times;</div>';
 }
 
 function deleteRule(r) {
