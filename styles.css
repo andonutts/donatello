@@ -59,9 +59,9 @@ canvas {
     margin: 0.5em 0;
 }
 
-.parameter {
-    display: inline-block;
-    width: 100%;
+input {
+    line-height: 2em;
+    padding: 0 0.25em;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -74,26 +74,32 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-.parameter > span {
-    float: left;
+.parameter {
+    display: flex;
+    width: 100%;
+}
+
+.parameter > label {
+    flex-grow: 1;
+    margin: auto 0;
 }
 
 .parameter > input {
     float: right;
     width: 3.0em;
-    padding: 0;
     /* -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box; */
 }
 
 #base-axiom-label {
-    float: left;
+    display: inline-block;
+    width: 100%;
 }
 
 #base-axiom {
-    float: right;
-    width: 10.0em;
+    display: inline-block;
+    width: 50%;
 }
 
 .rule {
@@ -108,7 +114,6 @@ input[type="number"] {
 
 .rule-arrow {
     margin: auto 0.5em;
-    vertical-align: middle;
 }
 
 .rule-input {
