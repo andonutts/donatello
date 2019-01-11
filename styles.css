@@ -59,9 +59,13 @@ canvas {
     margin: 0.5em 0;
 }
 
-input {
+input, select, #generate-button {
     line-height: 2em;
     padding: 0 0.25em;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0; 
+    border-radius: 0;
+    border: 1px solid #c0c0c0;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -72,6 +76,10 @@ input[type="number"]::-webkit-inner-spin-button {
 
 input[type="number"] {
     -moz-appearance: textfield;
+}
+
+.parameter, .rule, #base-axiom {
+    margin: 0.25em 0;
 }
 
 .parameter {
@@ -92,7 +100,7 @@ input[type="number"] {
     box-sizing: border-box; */
 }
 
-#base-axiom-label {
+#base-axiom-label, #production-rules-label {
     display: inline-block;
     width: 100%;
 }
