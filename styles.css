@@ -6,6 +6,8 @@
 body {
     margin: 0;
     background-color: #f2f2f2;
+    font-family: 'PT Serif', serif;
+    color: #4c4c4c;
 }
 
 #sidebar-button {
@@ -15,7 +17,6 @@ body {
     font-size: 1.3em;
     border: none;
     background-color: rgba(255, 255, 255, 0.0);
-    color: #4c4c4c;
     cursor: pointer;
     outline: none;
 }
@@ -59,7 +60,7 @@ canvas {
     margin: 0.5em 0;
 }
 
-input, select, #generate-button {
+input {
     line-height: 2em;
     padding: 0 0.25em;
     -webkit-appearance: none;
@@ -130,6 +131,7 @@ input[type="number"] {
 }
 
 .delete-rule-button, .add-rule-button {
+    font-family: initial;
     margin: auto 0.25em;
     padding: 0.0 0.25em;
     text-align: center;
@@ -142,12 +144,14 @@ input[type="number"] {
 
 .delete-rule-button {
     color:  #e74c3c;
+    margin: auto 0 auto 0.25em;
 }
 
 .add-rule-button {
     margin: auto;
+    font-size: 2.0em;
     padding: 0 0.18em;
-    width: 2em;
+    width: 1em;
     color:  #000000;
 }
 
