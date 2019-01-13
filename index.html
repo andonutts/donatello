@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>3d-turtle-gfx</title>
+        <title>donatello</title>
         <link rel="stylesheet" href="styles.css">
-        <link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet"> 
         <script src="js/three.js"></script>
         <script src="js/controls/OrbitControls.js"></script>
         <script src="js/Detector.js"></script>
@@ -18,7 +18,8 @@
         </div>
         <div id="sidebar">
             <div id="menu">
-                <h1>3d-turtle-gfx</h1>
+                <h1 class="title">donatello</h1>
+                <p class="subtitle">3D turtle graphics plotter and L-system interpreter</p>
                 <div class="menu-section">
                     <select id="preset-select">
                         <option value="">Load an example...</option>
@@ -41,7 +42,7 @@
                 <div class="menu-section">
                     <div class="parameter"><label>d, step size</label><input type="number" id="step-size" min="0" step="any" /></div>
                     <div class="parameter"><label>n, iterations</label><input type="number" id="iterations" min="0" step="any" /></div>
-                    <div class="parameter"><label>&delta;, rotation angle (degrees)</label><input type="number" id="rotation-angle" step="any" /></div>
+                    <div class="parameter"><label>&delta;, rotation angle</label><input type="number" id="rotation-angle" step="any" /></div>
                 </div>
                 <div class="menu-section">
                     <label id="base-axiom-label">Base axiom</label>
