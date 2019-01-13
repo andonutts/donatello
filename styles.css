@@ -81,7 +81,7 @@ input {
 
 input[type="text"],
 input[type="number"],
-select:focus {
+select {
     font-size: inherit;
 }
 
