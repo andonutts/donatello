@@ -1,4 +1,4 @@
-# 3d-turtle-gfx
+# donatello
 
 <p align="center">
   <img src="./img/interface.png" alt="Interface preview image">
@@ -6,7 +6,7 @@
 
 ## Usage
 
-[Try it here!](https://andonutts.github.io/3d-turtle-gfx/)
+[Try it here!](https://andonutts.github.io/donatello/)
 
 To use the program locally, simply clone or download the repository, then open `3d-turtle-gfx.html` in your web browser of choice.
 
