@@ -94,6 +94,8 @@ function addEventListeners() {
 
     var sidebar = document.getElementById("sidebar");
     var sidebarButton = document.getElementById("sidebar-button");
+    var addRuleButton = document.getElementById("add-rule-button");
+    var generateButton = document.getElementById("generate-button");
 
     sidebarButton.addEventListener('click', function (event) {
         if (sidebar.style.display == "none") {
@@ -102,6 +104,9 @@ function addEventListeners() {
             sidebar.style.display = "none";
         }
     });
+
+    addRuleButton.addEventListener('click', addRule);
+    generateButton.addEventListener('click', generateModel);
 }
 
 function generateModel() {
