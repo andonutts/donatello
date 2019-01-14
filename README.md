@@ -1,9 +1,5 @@
 # donatello
 
-<p align="center">
-  <img src="./img/interface.png" alt="Interface preview image">
-</p>
-
 ## Usage
 
 [Try it here!](https://andonutts.github.io/donatello/)
