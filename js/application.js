@@ -3,23 +3,22 @@ if ( !Detector.webgl ) {
 }
 
 var renderer, scene, camera, controls;
+var ruleListContainer;
 
 window.onload = function() {
     init();
-    generateHilbertCurve();
+    loadHilbertCurve();
+    generateModel();
     animate();
 }
 
 function init() {
-    var canvasWidth = 512;
-    var canvasHeight = 512;
-
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( window.innerWidth, window.innerHeight, false );
     renderer.setClearColor( 0xf2f2f2, 1.0 );
 
-    document.body.appendChild( renderer.domElement );
+    document.getElementById("canvas-container").appendChild( renderer.domElement );
 
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
     camera.position.set( 50, 50, 50 );
@@ -33,10 +32,14 @@ function init() {
     controls.minDistance = 10;
     controls.maxDistance = 500;
 
-    addEventListeners();
-
+    ruleListContainer = document.getElementById("rule-list-container");
+    
     addRule();
+    
     document.getElementById("preset-select").value = "";
+    document.getElementById("sidebar").style.display = "none";
+    
+    addEventListeners();
 }
 
 function addEventListeners() {
@@ -44,52 +47,66 @@ function addEventListeners() {
     presetSelect.onchange = function() {
         switch(presetSelect.value) {
             case "hilbert":
-                generateHilbertCurve();
+                loadHilbertCurve();
                 break;
             case "bush":
-                generateBush();
+                loadBush();
                 break;
             case "plant":
-                generatePlant();
+                loadPlant();
                 break;
             case "dragon-1":
-                generateDragon1();
+                loadDragon1();
                 break;
             case "dragon-2":
-                generateDragon2();
+                loadDragon2();
                 break;
             case "sierpinski-1":
-                generateSierpinskiGasket1();
+                loadSierpinskiGasket1();
                 break;
             case "sierpinski-2":
-                generateSierpinskiGasket2();
+                loadSierpinskiGasket2();
                 break;
             case "koch-curve-1":
-                generateKochCurve1();
+                loadKochCurve1();
                 break;
             case "koch-curve-2":
-                generateKochCurve2();
+                loadKochCurve2();
                 break;
             case "koch-curve-3":
-                generateKochCurve3();
+                loadKochCurve3();
                 break;
             case "koch-snowflake":
-                generateKochSnowflake();
+                loadKochSnowflake();
                 break;
             case "koch-island":
-                generateKochIsland();
+                loadKochIsland();
                 break;
             case "koch-island-lake":
-                generateKochIslandsAndLakes();
+                loadKochIslandsAndLakes();
                 break;
             case "2d-tree":
-                generate2dTree();
+                load2dTree();
                 break;
             default:
         }
     }
 
-    window.addEventListener("resize", onWindowResize, false);
+    var sidebar = document.getElementById("sidebar");
+    var sidebarButton = document.getElementById("sidebar-button");
+    var addRuleButton = document.getElementById("add-rule-button");
+    var generateButton = document.getElementById("generate-button");
+
+    sidebarButton.addEventListener('click', function (event) {
+        if (sidebar.style.display == "none") {
+            sidebar.style.display = "block";
+        } else {
+            sidebar.style.display = "none";
+        }
+    });
+
+    addRuleButton.addEventListener('click', addRule);
+    generateButton.addEventListener('click', generateModel);
 }
 
 function generateModel() {
@@ -104,14 +121,13 @@ function generateModel() {
     controls.reset();
 
     var stepSize = document.getElementById("step-size").value;
-    var iterations = document.getElementById("order").value;
-    var turnAngle = document.getElementById("turn-angle").value;
+    var iterations = document.getElementById("iterations").value;
+    var turnAngle = document.getElementById("rotation-angle").value;
 
     var rules = [];
     var command = document.getElementById("base-axiom").value;
     var symbolList = document.querySelectorAll("input.symbol-input");
     var ruleList = document.querySelectorAll("input.rule-input");
-    
     for(var i = 0; i < symbolList.length; i++) {
         rules[symbolList[i].value] = ruleList[i].value;
     }
@@ -145,6 +161,13 @@ function createGeometry(vertices, leafVertices, petalVertices) {
 
 function animate() {
     requestAnimationFrame( animate );
+
+    if (resizeRendererToDisplaySize(renderer)) {
+        const canvas = renderer.domElement;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+    }
+
     renderer.render( scene, camera );
 }
 
@@ -160,8 +183,7 @@ function Turtle(stepSize, turnAngle) {
     this.position = new THREE.Vector3( 0, 0, 0 );
 
     // initialize heading in the +y direction
-    this.hlu = new THREE.Matrix3();
-    this.hlu.set(
+    this.hlu = mat3(
         0, 1, 0,
         1, 0, 0,
         0, 0, -1
@@ -169,9 +191,9 @@ function Turtle(stepSize, turnAngle) {
 
     this.moveForward = function() {
         var h = new THREE.Vector3(
-            this.hlu[0],
-            this.hlu[1],
-            this.hlu[2]
+            this.hlu[0][0],
+            this.hlu[1][0],
+            this.hlu[2][0]
         );
         
         this.vertices.push(
@@ -389,66 +411,51 @@ function drawLSystem(turtle, command) {
 }
 
 function addRule() {
-    var ruleTable = document.getElementById("rule-table");
-    var row = ruleTable.insertRow();
-    row.classList.add("rule");
-    var symbolCell = row.insertCell();
-    var ruleCell = row.insertCell();
-    var deleteCell = row.insertCell();
+    var rule = document.createElement("div");
+    ruleListContainer.appendChild(rule);
+    rule.classList.add("rule");
 
-    symbolCell.innerHTML = '<input type="text" class="symbol-input" maxlength="1" />&#8594;';
-    ruleCell.innerHTML = '<input type="text" class="rule-input" />';
-    deleteCell.innerHTML = '<button onclick="deleteRule(this)" class="delete-rule-button">&times;</button>'
-
-    adjustDeleteButtonVisibility();
+    rule.innerHTML = 
+        '<input type="text" class="symbol-input" maxlength="1" /> \
+        <span class="rule-arrow">&#8594;</span> \
+        <input type="text" class="rule-input" /> \
+        <div onclick="deleteRule(this.parentNode)" class="delete-rule-button">&#10005;</div>';
 }
 
 function deleteRule(r) {
-    var i = r.parentNode.parentNode.rowIndex;
-    document.getElementById("rule-table").deleteRow(i);
-
-    adjustDeleteButtonVisibility();
+    ruleListContainer.removeChild(r);
 }
 
 function setRuleCount(count) {
-    while(document.querySelectorAll("tr.rule").length < count) {
+    var ruleList = ruleListContainer.childNodes;
+    while(ruleList.length < count) {
         addRule();
     }
-    while(document.querySelectorAll("tr.rule").length > count) {
-        var lastRow = document.querySelectorAll("tr.rule").length - 1;
-        document.getElementById("rule-table").deleteRow(lastRow);
+    while(ruleList.length > count) {
+        var lastRuleIndex = ruleList.length - 1;
+        ruleListContainer.removeChild(ruleList[lastRuleIndex]);
     }
 }
 
-function adjustDeleteButtonVisibility() {
-    var ruleList = document.querySelectorAll("tr.rule");
-    if (ruleList.length > 1) {
-        ruleList[0].querySelectorAll("button.delete-rule-button")[0].removeAttribute("disabled");
-    } else {
-        ruleList[0].querySelectorAll("button.delete-rule-button")[0].setAttribute("disabled", "disabled");
+function resizeRendererToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    const needResize = canvas.width !== width || canvas.height !== height;
+
+    if (needResize) {
+        renderer.setSize(width, height, false);
     }
+
+    return needResize;
 }
 
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
-}
-
-function openControlPanel() {
-    document.getElementById("menu").style.display = "block";
-}
-
-function closeControlPanel() {
-    document.getElementById("menu").style.display = "none";
-}
-
-function generateHilbertCurve() {
+function loadHilbertCurve() {
     setRuleCount(4);
 
     document.getElementById("step-size").value = "4";
-    document.getElementById("order").value = "2";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "2";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "A";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -465,16 +472,14 @@ function generateHilbertCurve() {
 
     symbolList[3].value = "D";
     ruleList[3].value = "|CFB-F+B|FA&F^A&&FB-F+B|FC//";
-
-    generateModel();
 }
 
-function generateBush() {
+function loadBush() {
     setRuleCount(4);
 
     document.getElementById("step-size").value = "2";
-    document.getElementById("order").value = "4";
-    document.getElementById("turn-angle").value = "22.5";
+    document.getElementById("iterations").value = "4";
+    document.getElementById("rotation-angle").value = "22.5";
     document.getElementById("base-axiom").value = "A";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -491,16 +496,14 @@ function generateBush() {
 
     symbolList[3].value = "L";
     ruleList[3].value = "[^^-L]";
-
-    generateModel();
 }
 
-function generatePlant() {
+function loadPlant() {
     setRuleCount(7);
 
     document.getElementById("step-size").value = "1";
-    document.getElementById("order").value = "4";
-    document.getElementById("turn-angle").value = "18";
+    document.getElementById("iterations").value = "4";
+    document.getElementById("rotation-angle").value = "18";
     document.getElementById("base-axiom").value = "A";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -526,16 +529,14 @@ function generatePlant() {
 
     symbolList[6].value = "W";
     ruleList[6].value = "['^F][&&&&P]";
-
-    generateModel();
 }
 
-function generateDragon1() {
+function loadDragon1() {
     setRuleCount(2);
 
     document.getElementById("step-size").value = "1";
-    document.getElementById("order").value = "10";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "10";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "FX";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -546,16 +547,14 @@ function generateDragon1() {
 
     symbolList[1].value = "Y";
     ruleList[1].value = "-FX-Y";
-
-    generateModel();
 }
 
-function generateDragon2() {
+function loadDragon2() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "2";
-    document.getElementById("order").value = "5";
-    document.getElementById("turn-angle").value = "30";
+    document.getElementById("iterations").value = "5";
+    document.getElementById("rotation-angle").value = "30";
     document.getElementById("base-axiom").value = "F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -563,16 +562,14 @@ function generateDragon2() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "-F++++F----F+";
-
-    generateModel();
 }
 
-function generateSierpinskiGasket1() {
+function loadSierpinskiGasket1() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "1.5";
-    document.getElementById("order").value = "4";
-    document.getElementById("turn-angle").value = "120";
+    document.getElementById("iterations").value = "4";
+    document.getElementById("rotation-angle").value = "120";
     document.getElementById("base-axiom").value = "F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -580,16 +577,14 @@ function generateSierpinskiGasket1() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "F+F-F-F+F";
-
-    generateModel();
 }
 
-function generateSierpinskiGasket2() {
+function loadSierpinskiGasket2() {
     setRuleCount(3);
 
     document.getElementById("step-size").value = "1.5";
-    document.getElementById("order").value = "4";
-    document.getElementById("turn-angle").value = "60";
+    document.getElementById("iterations").value = "4";
+    document.getElementById("rotation-angle").value = "60";
     document.getElementById("base-axiom").value = "FX";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -603,16 +598,14 @@ function generateSierpinskiGasket2() {
 
     symbolList[2].value = "Y";
     ruleList[2].value = "-FX+FY+FX-";
-
-    generateModel();
 }
 
-function generateKochCurve1() {
+function loadKochCurve1() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "2";
-    document.getElementById("order").value = "3";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "3";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "F-F-F-F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -620,16 +613,14 @@ function generateKochCurve1() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "FF-F+F-F-FF";
-
-    generateModel();
 }
 
-function generateKochCurve2() {
+function loadKochCurve2() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "3";
-    document.getElementById("order").value = "3";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "3";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "F-F-F-F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -637,16 +628,14 @@ function generateKochCurve2() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "F-FF--F-F";
-
-    generateModel();
 }
 
-function generateKochCurve3() {
+function loadKochCurve3() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "1";
-    document.getElementById("order").value = "3";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "3";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "F-F-F-F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -654,16 +643,14 @@ function generateKochCurve3() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "FF-F-F-F-FF";
-
-    generateModel();
 }
 
-function generateKochSnowflake() {
+function loadKochSnowflake() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "1";
-    document.getElementById("order").value = "3";
-    document.getElementById("turn-angle").value = "60";
+    document.getElementById("iterations").value = "3";
+    document.getElementById("rotation-angle").value = "60";
     document.getElementById("base-axiom").value = "F++F++F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -671,16 +658,14 @@ function generateKochSnowflake() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "F-F++F-F";
-
-    generateModel();
 }
 
-function generateKochIsland() {
+function loadKochIsland() {
     setRuleCount(1);
 
     document.getElementById("step-size").value = "1";
-    document.getElementById("order").value = "2";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "2";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "F-F-F-F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -688,16 +673,14 @@ function generateKochIsland() {
     
     symbolList[0].value = "F";
     ruleList[0].value = "F-F+F+FF-F-F+F";
-
-    generateModel();
 }
 
-function generateKochIslandsAndLakes() {
+function loadKochIslandsAndLakes() {
     setRuleCount(2);
 
     document.getElementById("step-size").value = "0.6";
-    document.getElementById("order").value = "2";
-    document.getElementById("turn-angle").value = "90";
+    document.getElementById("iterations").value = "2";
+    document.getElementById("rotation-angle").value = "90";
     document.getElementById("base-axiom").value = "F+F+F+F";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -708,16 +691,14 @@ function generateKochIslandsAndLakes() {
 
     symbolList[1].value = "f";
     ruleList[1].value = "ffffff";
-
-    generateModel();
 }
 
-function generate2dTree() {
+function load2dTree() {
     setRuleCount(2);
 
     document.getElementById("step-size").value = "0.2";
-    document.getElementById("order").value = "7";
-    document.getElementById("turn-angle").value = "20";
+    document.getElementById("iterations").value = "7";
+    document.getElementById("rotation-angle").value = "20";
     document.getElementById("base-axiom").value = "X";
 
     symbolList = document.querySelectorAll("input.symbol-input");
@@ -728,6 +709,4 @@ function generate2dTree() {
 
     symbolList[1].value = "F";
     ruleList[1].value = "FF";
-
-    generateModel();
 }
