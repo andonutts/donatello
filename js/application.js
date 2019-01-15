@@ -380,6 +380,9 @@ function drawLSystem(turtle, command) {
             case "F":
                 turtle.moveForward();
                 break;
+            case "G":
+                turtle.moveForward();
+                break;
             case "f":
                 turtle.moveForwardNoDraw();
                 break;
@@ -577,18 +580,21 @@ function loadDragon2() {
 }
 
 function loadSierpinskiGasket1() {
-    setRuleCount(1);
+    setRuleCount(2);
 
-    document.getElementById("step-size").value = "1.5";
+    document.getElementById("step-size").value = "2";
     document.getElementById("iterations").value = "4";
     document.getElementById("rotation-angle").value = "120";
-    document.getElementById("base-axiom").value = "F";
+    document.getElementById("base-axiom").value = "F-G-G";
 
     symbolList = document.querySelectorAll("input.symbol-input");
     ruleList = document.querySelectorAll("input.rule-input");
     
     symbolList[0].value = "F";
-    ruleList[0].value = "F+F-F-F+F";
+    ruleList[0].value = "F-G+F+G-F";
+
+    symbolList[1].value = "G";
+    ruleList[1].value = "GG";
 }
 
 function loadSierpinskiGasket2() {
