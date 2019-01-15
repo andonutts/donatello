@@ -1,0 +1,270 @@
+{"examples": [
+    {
+        "id": "hilbert",
+        "name": "Hilbert curve",
+        "stepSize": 4,
+        "iterations": 2,
+        "rotationAngle": 90,
+        "baseAxiom": "A",
+        "ruleList": [
+            {
+                "symbol": "A",
+                "rule": "B-F+CFC+F-D&F^D-F+&&CFC+F+B//"
+            },
+            {
+                "symbol": "B",
+                "rule": "A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//"
+            },
+            {
+                "symbol": "C",
+                "rule": "|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//"
+            },
+            {
+                "symbol": "D",
+                "rule": "|CFB-F+B|FA&F^A&&FB-F+B|FC//"
+            }
+        ]
+    },
+    {
+        "id": "bush",
+        "name": "Bush-like structure",
+        "stepSize": 2,
+        "iterations": 4,
+        "rotationAngle": 22.5,
+        "baseAxiom": "A",
+        "ruleList": [
+            {
+                "symbol": "A",
+                "rule": "[&FLA]/////[&FLA]///////[&FLA]"
+            },
+            {
+                "symbol": "F",
+                "rule": "S/////F"
+            },
+            {
+                "symbol": "S",
+                "rule": "FL"
+            },
+            {
+                "symbol": "L",
+                "rule": "[^^-L]"
+            }
+        ]
+    },
+    {
+        "id": "plant",
+        "name": "Plant with flowers",
+        "stepSize": 1,
+        "iterations": 4,
+        "rotationAngle": 18,
+        "baseAxiom": "A",
+        "ruleList": [
+            {
+                "symbol": "A",
+                "rule": "I+[A+w]--//[--L]I[++L]-[Aw]++Aw"
+            },
+            {
+                "symbol": "I",
+                "rule": "FS[//&&L][//^^L]FS"
+            },
+            {
+                "symbol": "S",
+                "rule": "SFS"
+            },
+            {
+                "symbol": "L",
+                "rule": "['L]"
+            },
+            {
+                "symbol": "w",
+                "rule": "[&&&p'/W////W////W////W////W]"
+            },
+            {
+                "symbol": "p",
+                "rule": "FF"
+            },
+            {
+                "symbol": "W",
+                "rule": "['^F][&&&&P]"
+            }
+        ]
+    },
+    {
+        "id": "dragon-1",
+        "name": "Dragon curve 1",
+        "stepSize": 1,
+        "iterations": 10,
+        "rotationAngle": 90,
+        "baseAxiom": "FX",
+        "ruleList": [
+            {
+                "symbol": "X",
+                "rule": "X+YF+"
+            },
+            {
+                "symbol": "Y",
+                "rule": "-FX-Y"
+            }
+        ]
+    },
+    {
+        "id": "dragon-2",
+        "name": "Dragon curve 2",
+        "stepSize": 2,
+        "iterations": 5,
+        "rotationAngle": 30,
+        "baseAxiom": "F",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "-F++++F----F+"
+            }
+        ]
+    },
+    {
+        "id": "sierpinski-1",
+        "name": "Sierpinski gasket 1",
+        "stepSize": 2,
+        "iterations": 4,
+        "rotationAngle": 120,
+        "baseAxiom": "F-G-G",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "F-G+F+G-F"
+            },
+            {
+                "symbol": "G",
+                "rule": "GG"
+            }
+        ]
+    },
+    {
+        "id": "sierpinski-2",
+        "name": "Sierpinski gasket 2",
+        "stepSize": 1.5,
+        "iterations": 4,
+        "rotationAngle": 60,
+        "baseAxiom": "FX",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "Z"
+            },
+            {
+                "symbol": "X",
+                "rule": "+FY-FX-FY+"
+            },
+            {
+                "symbol": "Y",
+                "rule": "-FX+FY+FX-"
+            }
+        ]
+    },
+    {
+        "id": "koch-curve-1",
+        "name": "Koch curve 1",
+        "stepSize": 2,
+        "iterations": 3,
+        "rotationAngle": 90,
+        "baseAxiom": "F-F-F-F",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "FF-F+F-F-FF"
+            }
+        ]
+    },
+    {
+        "id": "koch-curve-2",
+        "name": "Koch curve 2",
+        "stepSize": 3,
+        "iterations": 3,
+        "rotationAngle": 90,
+        "baseAxiom": "F-F-F-F",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "F-FF--F-F"
+            }
+        ]
+    },
+    {
+        "id": "koch-curve-3",
+        "name": "Koch curve 3",
+        "stepSize": 1,
+        "iterations": 3,
+        "rotationAngle": 90,
+        "baseAxiom": "F-F-F-F",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "FF-F-F-F-FF"
+            }
+        ]
+    },
+    {
+        "id": "koch-snowflake",
+        "name": "Koch snowflake",
+        "stepSize": 1,
+        "iterations": 3,
+        "rotationAngle": 60,
+        "baseAxiom": "F++F++F",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "F-F++F-F"
+            }
+        ]
+    },
+    {
+        "id": "koch-island",
+        "name": "Koch island",
+        "stepSize": 1,
+        "iterations": 2,
+        "rotationAngle": 90,
+        "baseAxiom": "F-F-F-F",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "F-F+F+FF-F-F+F"
+            }
+        ]
+    },
+    {
+        "id": "koch-islands-lakes",
+        "name": "Koch islands and lakes",
+        "stepSize": 0.6,
+        "iterations": 2,
+        "rotationAngle": 90,
+        "baseAxiom": "F+F+F+F",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "F+f-FF+F+FF+Ff+FF-f+FF-F-FF-Ff-FFF"
+            },
+            {
+                "symbol": "f",
+                "rule": "ffffff"
+            }
+        ]
+    },
+    {
+        "id": "2d-tree",
+        "name": "2d tree",
+        "stepSize": 0.2,
+        "iterations": 7,
+        "rotationAngle": 20,
+        "baseAxiom": "X",
+        "ruleList": [
+            {
+                "symbol": "X",
+                "rule": "F[+X]F[-X]+X"
+            },
+            {
+                "symbol": "F",
+                "rule": "FF"
+            }
+        ]
+    }
+]}
