@@ -122,17 +122,18 @@ function generateModel() {
 
     var stepSize = document.getElementById("step-size").value;
     var iterations = document.getElementById("iterations").value;
-    var turnAngle = document.getElementById("rotation-angle").value;
+    var rotationAngle = document.getElementById("rotation-angle").value;
 
     var rules = [];
     var command = document.getElementById("base-axiom").value;
     var symbolList = document.querySelectorAll("input.symbol-input");
     var ruleList = document.querySelectorAll("input.rule-input");
+
     for(var i = 0; i < symbolList.length; i++) {
         rules[symbolList[i].value] = ruleList[i].value;
     }
 
-    var turters = new Turtle(stepSize, turnAngle);
+    var turters = new Turtle(stepSize, rotationAngle);
 
     var commandEx = processLSystem(iterations, command, rules);
     drawLSystem(turters, commandEx);
@@ -171,9 +172,9 @@ function animate() {
     renderer.render( scene, camera );
 }
 
-function Turtle(stepSize, turnAngle) {
+function Turtle(stepSize, rotationAngle) {
     this.stepSize = stepSize;
-    this.turnAngle = turnAngle * Math.PI / 180;
+    this.rotationAngle = rotationAngle * Math.PI / 180;
     this.stateStack = [];
     this.vertices = [];
     this.leafVertices = [];
@@ -183,7 +184,8 @@ function Turtle(stepSize, turnAngle) {
     this.position = new THREE.Vector3( 0, 0, 0 );
 
     // initialize heading in the +y direction
-    this.hlu = mat3(
+    this.hlu = new THREE.Matrix3();
+    this.hlu.set(
         0, 1, 0,
         1, 0, 0,
         0, 0, -1
@@ -191,109 +193,116 @@ function Turtle(stepSize, turnAngle) {
 
     this.moveForward = function() {
         var h = new THREE.Vector3(
-            this.hlu[0][0],
-            this.hlu[1][0],
-            this.hlu[2][0]
+            this.hlu.elements[0],
+            this.hlu.elements[1],
+            this.hlu.elements[2]
         );
         
         this.vertices.push(
-            this.position[0],
-            this.position[1],
-            this.position[2]
+            this.position.x,
+            this.position.y,
+            this.position.z
         );
         
-        this.position = add(this.position, scale(stepSize, h));
+        this.position = this.position.addScaledVector(h, stepSize);
         
         this.vertices.push(
-            this.position[0],
-            this.position[1],
-            this.position[2]
+            this.position.x,
+            this.position.y,
+            this.position.z
         );
     }
 
     this.moveForwardNoDraw = function() {
         var h = new THREE.Vector3(
-            this.hlu[0][0],
-            this.hlu[1][0],
-            this.hlu[2][0]
+            this.hlu.elements[0],
+            this.hlu.elements[1],
+            this.hlu.elements[2]
         );
 
-        this.position = add(this.position, scale(stepSize, h));
+        this.position = this.position.addScaledVector(h, stepSize);
     }
 
     this.turnLeft = function() {
-        var d = -this.turnAngle;
-        var rot = mat3(
+        var d = -this.rotationAngle;
+        var rot = new THREE.Matrix3();
+        rot.set(
             Math.cos(d), Math.sin(d), 0,
             -Math.sin(d), Math.cos(d), 0,
             0, 0, 1
         );
-        this.hlu = mult(this.hlu, rot);
+        this.hlu = this.hlu.multiply(rot);
     };
 
     this.turnRight = function() {
-        var d =  this.turnAngle;
-        var rot = mat3(
+        var d =  this.rotationAngle;
+        var rot = new THREE.Matrix3();
+        rot.set(
             Math.cos(d), Math.sin(d), 0,
             -Math.sin(d), Math.cos(d), 0,
             0, 0, 1
         );
-        this.hlu = mult(this.hlu, rot);
+        this.hlu = this.hlu.multiply(rot);
     };
 
     this.pitchDown = function() {
-        var d = -this.turnAngle;
-        var rot = mat3(
+        var d = -this.rotationAngle;
+        var rot = new THREE.Matrix3();
+        rot.set(
             Math.cos(d), 0, -Math.sin(d),
             0, 1, 0,
             Math.sin(d), 0, Math.cos(d)
         );
-        this.hlu = mult(this.hlu, rot);
+        this.hlu = this.hlu.multiply(rot);
     };
 
     this.pitchUp = function() {
-        var d = this.turnAngle;
-        var rot = mat3(
+        var d = this.rotationAngle;
+        var rot = new THREE.Matrix3();
+        rot.set(
             Math.cos(d), 0, -Math.sin(d),
             0, 1, 0,
             Math.sin(d), 0, Math.cos(d)
         );
-        this.hlu = mult(this.hlu, rot);
+        this.hlu = this.hlu.multiply(rot);
     };
 
     this.rollLeft = function() {
-        var d = -this.turnAngle;
-        var rot = mat3(
+        var d = -this.rotationAngle;
+        var rot = new THREE.Matrix3();
+        rot.set(
             1, 0, 0,
             0, Math.cos(d), -Math.sin(d),
             0, Math.sin(d), Math.cos(d)
         );
-        this.hlu = mult(this.hlu, rot);
+        this.hlu = this.hlu.multiply(rot);
     };
 
     this.rollRight = function() {
-        var d = this.turnAngle;
-        var rot = mat3(
+        var d = this.rotationAngle;
+        var rot = new THREE.Matrix3();
+        rot.set(
             1, 0, 0,
             0, Math.cos(d), -Math.sin(d),
             0, Math.sin(d), Math.cos(d)
         );
-        this.hlu = mult(this.hlu, rot);
+        this.hlu = this.hlu.multiply(rot);
     };
 
     this.turnAround = function() {
-        var rot = mat3(
+        var rot = new THREE.Matrix3();
+        rot.set(
             -1, 0, 0,
             0, -1, 0,
             0, 0, 1
         );
-        this.hlu = mult(this.hlu, rot);
+        this.hlu = this.hlu.multiply(rot);
     }
 
     this.pushState = function() {
         var turtleState = {
-            position : this.position,
-            hlu : this.hlu
+            position : this.position.clone(),
+            hlu : this.hlu.clone()
         };
         this.stateStack.push(turtleState);
     };
@@ -305,42 +314,42 @@ function Turtle(stepSize, turnAngle) {
     };
 
     this.drawLeaf = function() {
-        var pos = new THREE.Vector3(this.position[0], this.position[1], this.position[2]);
-        var head = new THREE.Vector3(this.hlu[0][0], this.hlu[1][0], this.hlu[2][0]);
-        var left = new THREE.Vector3(this.hlu[0][1], this.hlu[1][1], this.hlu[2][1]);
-        var up = new THREE.Vector3(this.hlu[0][2], this.hlu[1][2], this.hlu[2][2]);
+        var pos = new THREE.Vector3(this.position.x, this.position.y, this.position.z);
+        var head = new THREE.Vector3(this.hlu.elements[0], this.hlu.elements[1], this.hlu.elements[2]);
+        var left = new THREE.Vector3(this.hlu.elements[3], this.hlu.elements[4], this.hlu.elements[5]);
+        var up = new THREE.Vector3(this.hlu.elements[6], this.hlu.elements[7], this.hlu.elements[8]);
 
-        var edge1 = scale(this.stepSize, normalize(add(head, scale(0.5, left))));
-        var edge2 = scale(this.stepSize, normalize(add(head, negate(scale(0.5, left)))));
-        var diag = add(edge1, edge2);
+        var edge1 = left.clone().multiplyScalar(0.5).add(head).normalize().multiplyScalar(this.stepSize);
+        var edge2 = left.clone().multiplyScalar(0.5).negate().add(head).normalize().multiplyScalar(this.stepSize);
+        var diag = edge1.clone().add(edge2);
 
         this.leafVertices.push(
-            pos[0], pos[1], pos[2],
-            (add(pos, edge1))[0], (add(pos, edge1))[1], (add(pos, edge1))[2],
-            (add(pos, diag))[0], (add(pos, diag))[1], (add(pos, diag))[2],
-            (add(pos, diag))[0], (add(pos, diag))[1], (add(pos, diag))[2],
-            (add(pos, edge2))[0], (add(pos, edge2))[1], (add(pos, edge2))[2],
-            pos[0], pos[1], pos[2],
+            pos.x, pos.y, pos.z,
+            (pos.clone().add(edge1)).x, (pos.clone().add(edge1)).y, (pos.clone().add(edge1)).z,
+            (pos.clone().add(diag)).x, (pos.clone().add(diag)).y, (pos.clone().add(diag)).z,
+            (pos.clone().add(diag)).x, (pos.clone().add(diag)).y, (pos.clone().add(diag)).z,
+            (pos.clone().add(edge2)).x, (pos.clone().add(edge2)).y, (pos.clone().add(edge2)).z,
+            pos.x, pos.y, pos.z,
         );
     }
 
     this.drawPetal = function() {
-        var pos = new THREE.Vector3(this.position[0], this.position[1], this.position[2]);
-        var head = new THREE.Vector3(this.hlu[0][0], this.hlu[1][0], this.hlu[2][0]);
-        var left = new THREE.Vector3(this.hlu[0][1], this.hlu[1][1], this.hlu[2][1]);
-        var up = new THREE.Vector3(this.hlu[0][2], this.hlu[1][2], this.hlu[2][2]);
+        var pos = new THREE.Vector3(this.position.x, this.position.y, this.position.z);
+        var head = new THREE.Vector3(this.hlu.elements[0], this.hlu.elements[1], this.hlu.elements[2]);
+        var left = new THREE.Vector3(this.hlu.elements[3], this.hlu.elements[4], this.hlu.elements[5]);
+        var up = new THREE.Vector3(this.hlu.elements[6], this.hlu.elements[7], this.hlu.elements[8]);
 
-        var edge1 = scale(this.stepSize, normalize(add(head, scale(0.5, left))));
-        var edge2 = scale(this.stepSize, normalize(add(head, negate(scale(0.5, left)))));
-        var diag = add(edge1, edge2);
+        var edge1 = left.clone().multiplyScalar(0.5).add(head).normalize().multiplyScalar(this.stepSize);
+        var edge2 = left.clone().multiplyScalar(0.5).negate().add(head).normalize().multiplyScalar(this.stepSize);
+        var diag = edge1.clone().add(edge2);
 
         this.petalVertices.push(
-            pos[0], pos[1], pos[2],
-            (add(pos, edge1))[0], (add(pos, edge1))[1], (add(pos, edge1))[2],
-            (add(pos, diag))[0], (add(pos, diag))[1], (add(pos, diag))[2],
-            (add(pos, diag))[0], (add(pos, diag))[1], (add(pos, diag))[2],
-            (add(pos, edge2))[0], (add(pos, edge2))[1], (add(pos, edge2))[2],
-            pos[0], pos[1], pos[2],
+            pos.x, pos.y, pos.z,
+            (pos.clone().add(edge1)).x, (pos.clone().add(edge1)).y, (pos.clone().add(edge1)).z,
+            (pos.clone().add(diag)).x, (pos.clone().add(diag)).y, (pos.clone().add(diag)).z,
+            (pos.clone().add(diag)).x, (pos.clone().add(diag)).y, (pos.clone().add(diag)).z,
+            (pos.clone().add(edge2)).x, (pos.clone().add(edge2)).y, (pos.clone().add(edge2)).z,
+            pos.x, pos.y, pos.z,
         );
     }
 }

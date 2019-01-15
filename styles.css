@@ -61,7 +61,7 @@ canvas {
 
 #menu {
     margin-top: 3.0em;
-    padding: 10px;
+    padding: 0.75em;
 }
 
 .menu-section {
@@ -138,6 +138,7 @@ input[type="number"] {
 }
 
 .rule-arrow {
+    font-family: initial;
     margin: auto 0.5em;
 }
 
@@ -149,7 +150,6 @@ input[type="number"] {
 .delete-rule-button, #add-rule-button {
     font-family: initial;
     margin: auto 0.25em;
-    padding: 0.0 0.25em;
     text-align: center;
     font-size: 1.5em;
     border: none;
@@ -160,7 +160,7 @@ input[type="number"] {
 
 .delete-rule-button {
     color:  #e74c3c;
-    margin: auto 0 auto 0.25em;
+    margin: auto 0 auto 0.5em;
 }
 
 #add-rule-button {
