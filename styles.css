@@ -143,6 +143,7 @@ input[type="number"] {
 }
 
 .rule-input {
+    min-width: 0;
     margin: auto;
     flex-grow: 1;
 }
