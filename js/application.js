@@ -21,9 +21,6 @@ function init() {
     document.getElementById("canvas-container").appendChild( renderer.domElement );
 
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
-    camera.position.set( 50, 50, 50 );
-    camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
-
     scene = new THREE.Scene();
     
     controls = new THREE.OrbitControls( camera, renderer.domElement );
@@ -33,7 +30,6 @@ function init() {
     controls.maxDistance = 500;
 
     ruleListContainer = document.getElementById("rule-list-container");
-    
     addRule();
     
     document.getElementById("preset-select").value = "";
@@ -115,11 +111,6 @@ function generateModel() {
         scene.remove(scene.children[0]); 
     }
 
-    // reset the camera and camera controls
-    camera.position.set( 50, 50, 50 );
-    camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
-    controls.reset();
-
     var stepSize = document.getElementById("step-size").value;
     var iterations = document.getElementById("iterations").value;
     var rotationAngle = document.getElementById("rotation-angle").value;
@@ -138,6 +129,11 @@ function generateModel() {
     var commandEx = processLSystem(iterations, command, rules);
     drawLSystem(turters, commandEx);
     createGeometry(turters.vertices, turters.leafVertices, turters.petalVertices);
+
+    // reset the camera and camera controls
+    camera.position.set( turters.center.x + 50, turters.center.y + 50, turters.center.z + 50 );
+    controls.target = turters.center.clone();
+    controls.update();
 }
 
 function createGeometry(vertices, leafVertices, petalVertices) {
@@ -179,6 +175,9 @@ function Turtle(stepSize, rotationAngle) {
     this.vertices = [];
     this.leafVertices = [];
     this.petalVertices = [];
+    this.center = new THREE.Vector3(0, 0, 0);
+    this.vertexSum = new THREE.Vector3(0, 0, 0);
+    this.vertexCount = 1;
 
     // initialize at origin
     this.position = new THREE.Vector3( 0, 0, 0 );
@@ -205,6 +204,10 @@ function Turtle(stepSize, rotationAngle) {
         );
         
         this.position = this.position.addScaledVector(h, stepSize);
+
+        this.vertexSum.add(this.position);
+        this.vertexCount++;
+        this.center = this.vertexSum.clone().divideScalar(this.vertexCount);
         
         this.vertices.push(
             this.position.x,
