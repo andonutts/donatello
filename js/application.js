@@ -110,7 +110,7 @@ function addEventListeners() {
                 if (sidebar.style.display == "none") {
                     sidebarButton.style.display = "none";
                 }
-            }, 1000);
+            }, 3000);
         }
     });
 
@@ -124,7 +124,7 @@ function addEventListeners() {
                 if (sidebar.style.display == "none") {
                     sidebarButton.style.display = "none";
                 }
-            }, 1000);
+            }, 3000);
         }
     });
 
@@ -132,14 +132,16 @@ function addEventListeners() {
         if (sidebar.style.display == "none") {
             sidebar.style.display = "block";
             sidebarButton.style.display = "block";
+            
             clearTimeout(timeout);
         } else {
             sidebar.style.display = "none";
+
             timeout = setTimeout(function() {
                 if (sidebar.style.display == "none") {
                     sidebarButton.style.display = "none";
                 }
-            }, 1000);
+            }, 3000);
         }
     });
 
