@@ -135,6 +135,11 @@ function addEventListeners() {
             clearTimeout(timeout);
         } else {
             sidebar.style.display = "none";
+            timeout = setTimeout(function() {
+                if (sidebar.style.display == "none") {
+                    sidebarButton.style.display = "none";
+                }
+            }, 1000);
         }
     });
 
