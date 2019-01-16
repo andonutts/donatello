@@ -377,8 +377,6 @@ function drawLSystem(turtle, command) {
     for(var i = 0; i < command.length; i++) {
         switch(command.charAt(i)) {
             case "F":
-                turtle.moveForward();
-                break;
             case "G":
                 turtle.moveForward();
                 break;
