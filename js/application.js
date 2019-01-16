@@ -96,12 +96,16 @@ function addEventListeners() {
         }
     });
 
-    document.addEventListener('touchmove', function (event) {
+    document.addEventListener('touchstart', function (event) {
         if (sidebar.style.display == "none") {
             sidebarButton.style.display = "block";
 
             clearTimeout(timeout);
-            
+        }
+    });
+
+    document.addEventListener('touchend', function (event) {
+        if (sidebar.style.display == "none") {
             timeout = setTimeout(function() {
                 if (sidebar.style.display == "none") {
                     sidebarButton.style.display = "none";
