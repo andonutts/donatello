@@ -266,5 +266,85 @@
                 "rule": "FF"
             }
         ]
+    },
+    {
+        "id": "levy",
+        "name": "L&#233vy C curve",
+        "stepSize": 1,
+        "iterations": 10,
+        "rotationAngle": 45,
+        "baseAxiom": "F",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "+F--F+"
+            }
+        ]
+    },
+    {
+        "id": "penrose",
+        "name": "Penrose tiling",
+        "stepSize": 1,
+        "iterations": 6,
+        "rotationAngle": 36,
+        "baseAxiom": "[X]++[X]++[X]++[X]++[X]",
+        "ruleList": [
+            {
+                "symbol": "W",
+                "rule": "YF++ZF----XF[-YF----WF]++"
+            },
+            {
+                "symbol": "X",
+                "rule": "+YF--ZF[---WF--XF]+"
+            },
+            {
+                "symbol": "Y",
+                "rule": "-WF++XF[+++YF++ZF]-"
+            },
+            {
+                "symbol": "Z",
+                "rule": "--YF++++WF[+ZF++++XF]--XF"
+            },
+            {
+                "symbol": "F",
+                "rule": ""
+            }
+        ]
+    },
+    {
+        "id": "gosper-hexagonal",
+        "name": "Hexagonal Gosper curve",
+        "stepSize": 1,
+        "iterations": 4,
+        "rotationAngle": 60,
+        "baseAxiom": "F",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "F-G--G+F++FF+G-"
+            },
+            {
+                "symbol": "G",
+                "rule": "+F-GG--G-F++F+G"
+            }
+        ]
+    },
+    {
+        "id": "gosper-quadratic",
+        "name": "Quadratic Gosper curve",
+        "stepSize": 1,
+        "iterations": 2,
+        "rotationAngle": 90,
+        "baseAxiom": "-G",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "FF-G-G+F+F-G-GF+G+FFG-F+G+FF+G-FG-G-F+F+GG-"
+            },
+            {
+                "symbol": "G",
+                "rule": "+FF-G-G+F+FG+F-GG-F-G+FGG-F-GF+F+G-G-F+F+GG"
+            }
+        ]
     }
 ]}
