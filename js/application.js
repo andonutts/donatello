@@ -42,8 +42,8 @@ function init() {
     generateButton = document.getElementById("generate-button");
 
     exampleSelect.value = "";
-    sidebar.style.display = "none";
-    sidebarButton.style.display = "none";
+    sidebar.style.display = "block";
+    sidebarButton.style.display = "block";
 
     populateExamples();
     addRule();
@@ -132,7 +132,7 @@ function addEventListeners() {
         if (sidebar.style.display == "none") {
             sidebar.style.display = "block";
             sidebarButton.style.display = "block";
-            
+
             clearTimeout(timeout);
         } else {
             sidebar.style.display = "none";
