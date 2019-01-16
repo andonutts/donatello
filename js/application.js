@@ -6,6 +6,11 @@ var renderer, scene, camera, controls;
 var ruleListContainer;
 var exampleSelect;
 var examples;
+var sidebar;
+var sidebarButton;
+var addRuleButton;
+var generateButton;
+var timeout;
 
 window.onload = function() {
     init();
@@ -31,13 +36,17 @@ function init() {
 
     exampleSelect = document.getElementById("example-select");
     ruleListContainer = document.getElementById("rule-list-container");
+    sidebar = document.getElementById("sidebar");
+    sidebarButton = document.getElementById("sidebar-button");
+    addRuleButton = document.getElementById("add-rule-button");
+    generateButton = document.getElementById("generate-button");
+
+    exampleSelect.value = "";
+    sidebar.style.display = "none";
+    sidebarButton.style.display = "none";
 
     populateExamples();
-    
     addRule();
-    
-    document.getElementById("example-select").value = "";
-    document.getElementById("sidebar").style.display = "none";
     
     addEventListeners();
 }
@@ -87,14 +96,26 @@ function addEventListeners() {
         }
     });
 
-    var sidebar = document.getElementById("sidebar");
-    var sidebarButton = document.getElementById("sidebar-button");
-    var addRuleButton = document.getElementById("add-rule-button");
-    var generateButton = document.getElementById("generate-button");
+    document.addEventListener('mousemove', function (event) {
+        if (sidebar.style.display == "none") {
+            sidebarButton.style.display = "block";
+            console.log("mousemove event");
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                console.log("setTimeout");
+                if (sidebar.style.display == "none") {
+                    console.log("hiding sidebar button");
+                    sidebarButton.style.display = "none";
+                }
+            }, 1000);
+        }
+    });
 
     sidebarButton.addEventListener('click', function (event) {
         if (sidebar.style.display == "none") {
             sidebar.style.display = "block";
+            sidebarButton.style.display = "block";
+            clearTimeout(timeout);
         } else {
             sidebar.style.display = "none";
         }

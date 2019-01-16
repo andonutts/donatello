@@ -20,6 +20,7 @@ body {
 }
 
 #sidebar-button {
+    display: none;
     position: absolute;
     text-align: center;
     padding: 0.5em 0.7em;
@@ -29,6 +30,10 @@ body {
     color: #4c4c4c;
     cursor: pointer;
     outline: none;
+}
+
+#sidebar-button:hover {
+    display: block;
 }
 
 #canvas-container {
