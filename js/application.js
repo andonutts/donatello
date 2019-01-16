@@ -96,15 +96,28 @@ function addEventListeners() {
         }
     });
 
+    document.addEventListener('touchmove', function (event) {
+        if (sidebar.style.display == "none") {
+            sidebarButton.style.display = "block";
+
+            clearTimeout(timeout);
+            
+            timeout = setTimeout(function() {
+                if (sidebar.style.display == "none") {
+                    sidebarButton.style.display = "none";
+                }
+            }, 1000);
+        }
+    });
+
     document.addEventListener('mousemove', function (event) {
         if (sidebar.style.display == "none") {
             sidebarButton.style.display = "block";
-            console.log("mousemove event");
+
             clearTimeout(timeout);
+            
             timeout = setTimeout(function() {
-                console.log("setTimeout");
                 if (sidebar.style.display == "none") {
-                    console.log("hiding sidebar button");
                     sidebarButton.style.display = "none";
                 }
             }, 1000);
