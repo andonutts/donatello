@@ -43,7 +43,7 @@ function init() {
 
     exampleSelect.value = "";
     sidebar.style.display = "block";
-    sidebarButton.style.display = "block";
+    sidebarButton.className = "visible";
 
     populateExamples();
     addRule();
@@ -98,7 +98,7 @@ function addEventListeners() {
 
     document.addEventListener('touchstart', function (event) {
         if (sidebar.style.display == "none") {
-            sidebarButton.style.display = "block";
+            sidebarButton.className = "visible";
 
             clearTimeout(timeout);
         }
@@ -108,7 +108,7 @@ function addEventListeners() {
         if (sidebar.style.display == "none") {
             timeout = setTimeout(function() {
                 if (sidebar.style.display == "none") {
-                    sidebarButton.style.display = "none";
+                    sidebarButton.className = "hidden";
                 }
             }, 2000);
         }
@@ -116,13 +116,13 @@ function addEventListeners() {
 
     document.addEventListener('mousemove', function (event) {
         if (sidebar.style.display == "none") {
-            sidebarButton.style.display = "block";
+            sidebarButton.className = "visible";
 
             clearTimeout(timeout);
             
             timeout = setTimeout(function() {
                 if (sidebar.style.display == "none") {
-                    sidebarButton.style.display = "none";
+                    sidebarButton.className = "hidden";
                 }
             }, 2000);
         }
@@ -131,7 +131,7 @@ function addEventListeners() {
     sidebarButton.addEventListener('click', function (event) {
         if (sidebar.style.display == "none") {
             sidebar.style.display = "block";
-            sidebarButton.style.display = "block";
+            sidebarButton.className = "visible";
 
             clearTimeout(timeout);
         } else {
@@ -139,7 +139,7 @@ function addEventListeners() {
 
             timeout = setTimeout(function() {
                 if (sidebar.style.display == "none") {
-                    sidebarButton.style.display = "none";
+                    sidebarButton.className = "hidden";
                 }
             }, 2000);
         }
