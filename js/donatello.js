@@ -12,6 +12,8 @@ var addRuleButton;
 var generateButton;
 var timeout;
 
+var examplesLoadedEvent = new Event('examplesloaded');
+
 window.onload = function() {
     init();
     animate();
@@ -69,30 +71,15 @@ function populateExamples() {
             exampleOption.innerHTML = examples[i].name;
             exampleSelect.appendChild(exampleOption);
         }
+        document.dispatchEvent(examplesLoadedEvent);
     }
+
 }
 
 function addEventListeners() {
     exampleSelect.addEventListener('change', function (event) {
         if(exampleSelect.value != "") {
-            var example = examples.find(function(element) {
-                return element.id == exampleSelect.value;
-            });
-    
-            document.getElementById("step-size").value = example.stepSize;
-            document.getElementById("iterations").value = example.iterations;
-            document.getElementById("rotation-angle").value = example.rotationAngle;
-            document.getElementById("base-axiom").value = example.baseAxiom;
-            
-            setRuleCount(example.ruleList.length);
-    
-            symbolList = document.querySelectorAll("input.symbol-input");
-            ruleList = document.querySelectorAll("input.rule-input");
-            
-            for(var i = 0; i < example.ruleList.length; i++) {
-                symbolList[i].value = example.ruleList[i].symbol;
-                ruleList[i].value = example.ruleList[i].rule;
-            }
+            loadExampleByID(exampleSelect.value);
         }
     });
 
@@ -126,6 +113,11 @@ function addEventListeners() {
                 }
             }, 2000);
         }
+    });
+
+    document.addEventListener('examplesloaded', function (event) {
+        loadExampleByID("hilbert");
+        generateModel();
     });
 
     sidebarButton.addEventListener('click', function (event) {
@@ -505,4 +497,25 @@ function resizeRendererToDisplaySize(renderer) {
     }
 
     return needResize;
+}
+
+function loadExampleByID(id) {
+    var example = examples.find(function(element) {
+        return element.id == id;
+    });
+
+    document.getElementById("step-size").value = example.stepSize;
+    document.getElementById("iterations").value = example.iterations;
+    document.getElementById("rotation-angle").value = example.rotationAngle;
+    document.getElementById("base-axiom").value = example.baseAxiom;
+    
+    setRuleCount(example.ruleList.length);
+
+    symbolList = document.querySelectorAll("input.symbol-input");
+    ruleList = document.querySelectorAll("input.rule-input");
+    
+    for(var i = 0; i < example.ruleList.length; i++) {
+        symbolList[i].value = example.ruleList[i].symbol;
+        ruleList[i].value = example.ruleList[i].rule;
+    }
 }
