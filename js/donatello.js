@@ -247,7 +247,7 @@ function Turtle(stepSize, rotationAngle) {
             this.position.z
         );
         
-        this.position = this.position.addScaledVector(h, stepSize);
+        this.position.addScaledVector(h, stepSize);
 
         this.vertexSum.add(this.position);
         this.vertexCount++;
@@ -267,7 +267,7 @@ function Turtle(stepSize, rotationAngle) {
             this.hlu.elements[2]
         );
 
-        this.position = this.position.addScaledVector(h, stepSize);
+        this.position.addScaledVector(h, stepSize);
     }
 
     this.turnLeft = function() {
@@ -278,7 +278,7 @@ function Turtle(stepSize, rotationAngle) {
             -Math.sin(d), Math.cos(d), 0,
             0, 0, 1
         );
-        this.hlu = this.hlu.multiply(rot);
+        this.hlu.multiply(rot);
     };
 
     this.turnRight = function() {
@@ -289,7 +289,7 @@ function Turtle(stepSize, rotationAngle) {
             -Math.sin(d), Math.cos(d), 0,
             0, 0, 1
         );
-        this.hlu = this.hlu.multiply(rot);
+        this.hlu.multiply(rot);
     };
 
     this.pitchDown = function() {
@@ -300,7 +300,7 @@ function Turtle(stepSize, rotationAngle) {
             0, 1, 0,
             Math.sin(d), 0, Math.cos(d)
         );
-        this.hlu = this.hlu.multiply(rot);
+        this.hlu.multiply(rot);
     };
 
     this.pitchUp = function() {
@@ -311,7 +311,7 @@ function Turtle(stepSize, rotationAngle) {
             0, 1, 0,
             Math.sin(d), 0, Math.cos(d)
         );
-        this.hlu = this.hlu.multiply(rot);
+        this.hlu.multiply(rot);
     };
 
     this.rollLeft = function() {
@@ -322,7 +322,7 @@ function Turtle(stepSize, rotationAngle) {
             0, Math.cos(d), -Math.sin(d),
             0, Math.sin(d), Math.cos(d)
         );
-        this.hlu = this.hlu.multiply(rot);
+        this.hlu.multiply(rot);
     };
 
     this.rollRight = function() {
@@ -333,7 +333,7 @@ function Turtle(stepSize, rotationAngle) {
             0, Math.cos(d), -Math.sin(d),
             0, Math.sin(d), Math.cos(d)
         );
-        this.hlu = this.hlu.multiply(rot);
+        this.hlu.multiply(rot);
     };
 
     this.turnAround = function() {
@@ -343,7 +343,7 @@ function Turtle(stepSize, rotationAngle) {
             0, -1, 0,
             0, 0, 1
         );
-        this.hlu = this.hlu.multiply(rot);
+        this.hlu.multiply(rot);
     }
 
     this.pushState = function() {
