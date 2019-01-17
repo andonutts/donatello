@@ -20,7 +20,6 @@ body {
 }
 
 #sidebar-button {
-    display: none;
     position: absolute;
     text-align: center;
     padding: 0.5em 0.7em;
@@ -32,8 +31,16 @@ body {
     outline: none;
 }
 
-#sidebar-button:hover {
-    display: block;
+.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.15s linear;
+}
+  
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.15s, opacity 0.15s linear;
 }
 
 #canvas-container {
