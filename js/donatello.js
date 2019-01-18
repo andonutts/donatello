@@ -116,7 +116,7 @@ function addEventListeners() {
     });
 
     document.addEventListener('examplesloaded', function (event) {
-        loadExampleByID("hilbert");
+        loadExampleByID(examples[0].id);
         generateModel();
     });
 
