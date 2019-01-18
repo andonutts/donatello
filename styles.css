@@ -43,6 +43,15 @@ body {
     transition: visibility 0s 0.15s, opacity 0.15s linear;
 }
 
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 #canvas-container {
     top: 0;
     bottom: 0;
@@ -76,10 +85,14 @@ canvas {
     padding: 0.75em;
 }
 
-.menu-section {
+.menu-section, .footer {
     display: inline-block;
     width: 100%;
     margin: 0.5em 0;
+}
+
+.footer {
+    text-align: center;
 }
 
 input {
@@ -193,6 +206,16 @@ input[type="number"] {
     text-align: center;
     text-decoration: none;
     cursor: pointer;
+    outline: none;
+}
+
+hr {
+    border: 1px solid #d3d3d3;
+    margin: 2.0em 0.0;
+}
+
+.github-link {
+    margin: auto;
 }
 
 @media only screen and (min-width: 650px) {

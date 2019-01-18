@@ -466,7 +466,7 @@ function addRule() {
 
     rule.innerHTML = 
         '<input type="text" class="symbol-input" maxlength="1" /> \
-        <span class="rule-arrow">&#8594;</span> \
+        <span class="rule-arrow noselect">&#8594;</span> \
         <input type="text" class="rule-input" /> \
         <div onclick="deleteRule(this.parentNode)" class="delete-rule-button">&#10005;</div>';
 }
