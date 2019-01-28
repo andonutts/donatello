@@ -242,7 +242,6 @@ input[type="number"] {
 }
 
 .color-box {
-    /* flex: 1; */
     height: 100%;
     width: 25%;
     display: inline-block;
