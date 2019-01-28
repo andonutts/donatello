@@ -11,8 +11,13 @@ var sidebarButton;
 var addRuleButton;
 var generateButton;
 var timeout;
+var palettes;
+var canvasColor = '#f2f2f2';
+var lineColor = '#4c4c4c';
+var leafColor = '#1d8348';
+var petalColor = '#ff5733';
 
-var examplesLoadedEvent = new Event('examplesloaded');
+var palettesLoadedEvent = new Event('palettesloaded');
 
 window.onload = function() {
     init();
@@ -23,7 +28,7 @@ function init() {
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight, false );
-    renderer.setClearColor( 0xf2f2f2, 1.0 );
+    renderer.setClearColor(canvasColor);
 
     document.getElementById("canvas-container").appendChild( renderer.domElement );
 
@@ -48,13 +53,14 @@ function init() {
     sidebarButton.className = "visible";
 
     populateExamples();
+    populatePalettes();
     addRule();
     
     addEventListeners();
 }
 
 function populateExamples() {
-    var requestURL = "examples.json";
+    var requestURL = "data/examples.json";
     var request = new XMLHttpRequest();
 
     request.open('GET', requestURL);
@@ -71,9 +77,64 @@ function populateExamples() {
             exampleOption.innerHTML = examples[i].name;
             exampleSelect.appendChild(exampleOption);
         }
-        document.dispatchEvent(examplesLoadedEvent);
     }
+}
 
+function populatePalettes() {
+    var paletteList = document.getElementById("color-palettes");
+
+    var requestURL = "data/palettes.json";
+    var request = new XMLHttpRequest();
+
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+
+    request.send();
+
+    request.onload = function() {
+        palettes = request.response.palettes;
+
+        for(var i = 0; i < palettes.length; i++) {
+            var paletteItem = document.createElement("button");
+            paletteItem.classList.add("palette-item");
+
+            var colorBox1 = document.createElement("div");
+            colorBox1.classList.add("color-box");
+            colorBox1.style.backgroundColor = palettes[i].canvasColor;
+            paletteItem.appendChild(colorBox1);
+
+            var colorBox2 = document.createElement("div");
+            colorBox2.classList.add("color-box");
+            colorBox2.style.backgroundColor = palettes[i].lineColor;
+            paletteItem.appendChild(colorBox2);
+
+            var colorBox3 = document.createElement("div");
+            colorBox3.classList.add("color-box");
+            colorBox3.style.backgroundColor = palettes[i].leafColor;
+            paletteItem.appendChild(colorBox3);
+
+            var colorBox4 = document.createElement("div");
+            colorBox4.classList.add("color-box");
+            colorBox4.style.backgroundColor = palettes[i].petalColor;
+            paletteItem.appendChild(colorBox4);
+
+            paletteItem.addEventListener('click', function() {
+                var active = document.getElementsByClassName('palette-item active');
+                for (var j = 0; active.length; j++) {
+                    active[j].classList.remove('active');
+                }
+                this.classList.add('active');
+                var colorBoxes = this.childNodes;
+                canvasColor = colorBoxes[0].style.backgroundColor;
+                lineColor = colorBoxes[1].style.backgroundColor;
+                leafColor = colorBoxes[2].style.backgroundColor;
+                petalColor = colorBoxes[3].style.backgroundColor;
+            });
+
+            paletteList.appendChild(paletteItem);
+        }
+        document.dispatchEvent(palettesLoadedEvent);
+    }
 }
 
 function addEventListeners() {
@@ -115,9 +176,18 @@ function addEventListeners() {
         }
     });
 
-    document.addEventListener('examplesloaded', function (event) {
-        loadExampleByID(examples[0].id);
-        generateModel();
+    document.addEventListener('palettesloaded', function (event) {
+        var paletteItems = document.getElementsByClassName('palette-item');
+
+        if (paletteItems.length > 0) {
+            var colorBoxes = paletteItems[0].childNodes;
+            canvasColor = colorBoxes[0].style.backgroundColor;
+            lineColor = colorBoxes[1].style.backgroundColor;
+            leafColor = colorBoxes[2].style.backgroundColor;
+            petalColor = colorBoxes[3].style.backgroundColor;
+
+            paletteItems[0].classList.add('active');
+        }
     });
 
     sidebarButton.addEventListener('click', function (event) {
@@ -136,6 +206,20 @@ function addEventListeners() {
             }, 2000);
         }
     });
+
+    var coll = document.getElementsByClassName("collapsible");
+
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener('click', function() {
+            this.classList.toggle('collapsible-active');
+            var content = this.nextElementSibling;
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
+        });
+    }
 
     addRuleButton.addEventListener('click', addRule);
     generateButton.addEventListener('click', generateModel);
@@ -166,28 +250,30 @@ function generateModel() {
     drawLSystem(turters, commandEx);
     createGeometry(turters.vertices, turters.leafVertices, turters.petalVertices);
 
+    renderer.setClearColor(canvasColor);
+
     // reset the camera and camera controls
     camera.position.set( turters.center.x + 50, turters.center.y + 50, turters.center.z + 50 );
     controls.target = turters.center.clone();
     controls.update();
 }
 
-function createGeometry(vertices, leafVertices, petalVertices) {
+function createGeometry(lineVertices, leafVertices, petalVertices) {
     var geometry = new THREE.BufferGeometry();
-    geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
-    var material = new THREE.LineBasicMaterial( { color: 0x4c4c4c } );
+    geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( lineVertices, 3 ) );
+    var material = new THREE.LineBasicMaterial( { color: lineColor } );
     var line = new THREE.LineSegments( geometry, material );
     scene.add( line );
 
     var leafGeometry = new THREE.BufferGeometry();
     leafGeometry.addAttribute( 'position', new THREE.Float32BufferAttribute( leafVertices, 3 ) );
-    var leafMaterial = new THREE.MeshBasicMaterial( { color: 0x1d8348, side: THREE.DoubleSide } );
+    var leafMaterial = new THREE.MeshBasicMaterial( { color: leafColor, side: THREE.DoubleSide } );
     var leafMesh = new THREE.Mesh( leafGeometry, leafMaterial );
     scene.add( leafMesh );
 
     var petalGeometry = new THREE.BufferGeometry();
     petalGeometry.addAttribute( 'position', new THREE.Float32BufferAttribute( petalVertices, 3 ) );
-    var petalMaterial = new THREE.MeshBasicMaterial( { color: 0xff5733, side: THREE.DoubleSide } );
+    var petalMaterial = new THREE.MeshBasicMaterial( { color: petalColor, side: THREE.DoubleSide } );
     var petalMesh = new THREE.Mesh( petalGeometry, petalMaterial );
     scene.add( petalMesh );
 }

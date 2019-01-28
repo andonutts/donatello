@@ -197,6 +197,56 @@ input[type="number"] {
     color:  #000000;
 }
 
+.collapsible {
+    line-height: 2.5em;
+    width: 100%;
+    padding: 0;
+    background: none;
+    font-family: inherit;
+    font-size: inherit;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+.collapsible:after {
+    font-family: initial;
+    font-size: 1.5em;
+    content: '\002B';
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.collapsible-active:after {
+    content: "\2212";
+}
+
+.collapsible-content {
+    display: none;
+}
+
+.palette-item {
+    width: 100%;
+    height: 3em;
+    display: flex;
+    border: none;
+    outline: none;
+    background: none;
+    margin: 0.5em 0;
+    padding: 0.3em;
+}
+
+.palette-item.active {
+    border: 1px solid black;
+}
+
+.color-box {
+    flex: 1;
+    background-color: #555;
+}
+
 #generate-button {
     width: 100%;
     height: 3em;

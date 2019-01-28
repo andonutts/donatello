@@ -1,0 +1,14 @@
+{"palettes": [
+    {
+        "canvasColor": "#f2f2f2",
+        "lineColor": "#4c4c4c",
+        "leafColor": "#1d8348",
+        "petalColor": "#ff5733"
+    },
+    {
+        "canvasColor": "#ef6c00",
+        "lineColor": "black",
+        "leafColor": "#1d8348",
+        "petalColor": "white"
+    }
+]}
