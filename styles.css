@@ -1,6 +1,7 @@
 .top-container {
     position: fixed;
     z-index: 100;
+    margin: 0;
 }
 
 body {
@@ -23,6 +24,7 @@ body {
     position: absolute;
     text-align: center;
     padding: 0.5em 0.7em;
+    margin: 0;
     font-size: 1.3em;
     border: none;
     background-color: black;
