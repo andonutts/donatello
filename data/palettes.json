@@ -10,5 +10,11 @@
         "lineColor": "black",
         "leafColor": "#1d8348",
         "petalColor": "white"
+    },
+    {
+        "canvasColor": "#fcf3cf",
+        "lineColor": "#1abc9c",
+        "leafColor": "#1abc9c",
+        "petalColor": "#af7ac5"
     }
 ]}
