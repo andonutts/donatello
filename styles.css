@@ -1,6 +1,5 @@
 .top-container {
-    display: block;
-    position: fixed;
+    position: sticky;
     z-index: 100;
 }
 
