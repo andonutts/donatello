@@ -212,15 +212,15 @@ input[type="number"] {
 
 .collapsible:after {
     font-family: initial;
-    font-size: 1.5em;
-    content: '\002B';
+    font-size: 1.0em;
+    content: '\25BC';
     font-weight: bold;
     float: right;
     margin-left: 5px;
 }
 
 .collapsible-active:after {
-    content: "\2212";
+    content: '\25B2';
 }
 
 .collapsible-content {
@@ -233,7 +233,7 @@ input[type="number"] {
     border: none;
     outline: none;
     background: none;
-    margin: 0.5em 0;
+    margin: 0.1em 0;
     padding: 0.3em;
 }
 
