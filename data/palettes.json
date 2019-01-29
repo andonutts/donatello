@@ -7,8 +7,8 @@
     },
     {
         "canvasColor": "#ef6c00",
-        "lineColor": "black",
-        "leafColor": "#1d8348",
+        "lineColor": "#273746",
+        "leafColor": "#273746",
         "petalColor": "white"
     },
     {
@@ -16,5 +16,11 @@
         "lineColor": "#1abc9c",
         "leafColor": "#1abc9c",
         "petalColor": "#af7ac5"
+    },
+    {
+        "canvasColor": "black",
+        "lineColor": "#00FF00",
+        "leafColor": "#00FF00",
+        "petalColor": "#00FF00"
     }
 ]}
