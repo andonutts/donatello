@@ -23,6 +23,9 @@ body {
 }
 
 #sidebar-button {
+    position: absolute;
+    left: 0;
+    top: 0;
     text-align: center;
     margin: 0;
     padding: 0.5em 0.7em;
