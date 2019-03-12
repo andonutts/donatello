@@ -118,7 +118,7 @@ select {
 }
 
 .parameter > input[type="checkbox"] {
-    width: initial;
+    height: 2.0em;
 }
 
 input[type="number"]::-webkit-outer-spin-button,

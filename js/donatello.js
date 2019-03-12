@@ -55,14 +55,11 @@ function init() {
     exampleSelect.value = "";
     sidebar.style.display = "block";
     sidebarButton.className = "visible";
+    autoRotateCheckbox.checked = false;
     
     populateExamples();
     populatePalettes();
     addRule();
-    
-    if (autoRotateCheckbox.checked) {
-        controls.autoRotate = true;
-    }
 
     addEventListeners();
 }
