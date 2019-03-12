@@ -102,19 +102,23 @@ canvas {
     text-align: center;
 }
 
-input {
+input[type="text"],
+input[type="number"] {
     line-height: 2em;
     padding: 0 0.25em;
     -webkit-appearance: none;
     -webkit-border-radius: 0; 
     border-radius: 0;
     border: 1px solid #c0c0c0;
+    font-size: inherit;
 }
 
-input[type="text"],
-input[type="number"],
 select {
     font-size: inherit;
+}
+
+.parameter > input[type="checkbox"] {
+    width: initial;
 }
 
 input[type="number"]::-webkit-outer-spin-button,

@@ -10,6 +10,7 @@ var sidebar;
 var sidebarButton;
 var addRuleButton;
 var generateButton;
+var autoRotateCheckbox;
 var timeout;
 var palettes;
 var canvasColor = '#f2f2f2';
@@ -40,6 +41,8 @@ function init() {
     controls.enableKeys = false;
     controls.minDistance = 10;
     controls.maxDistance = 500;
+    controls.autoRotateSpeed = 10.0;
+    controls.autoRotate = false;
 
     exampleSelect = document.getElementById("example-select");
     ruleListContainer = document.getElementById("rule-list-container");
@@ -47,15 +50,20 @@ function init() {
     sidebarButton = document.getElementById("sidebar-button");
     addRuleButton = document.getElementById("add-rule-button");
     generateButton = document.getElementById("generate-button");
-
+    autoRotateCheckbox = document.getElementById("auto-rotate-checkbox");
+    
     exampleSelect.value = "";
     sidebar.style.display = "block";
     sidebarButton.className = "visible";
-
+    
     populateExamples();
     populatePalettes();
     addRule();
     
+    if (autoRotateCheckbox.checked) {
+        controls.autoRotate = true;
+    }
+
     addEventListeners();
 }
 
@@ -221,6 +229,14 @@ function addEventListeners() {
         });
     }
 
+    autoRotateCheckbox.addEventListener('click', function(event) {
+        if (autoRotateCheckbox.checked) {
+            controls.autoRotate = true;
+        } else {
+            controls.autoRotate = false;
+        }
+    });
+
     addRuleButton.addEventListener('click', addRule);
     generateButton.addEventListener('click', generateModel);
 }
@@ -286,6 +302,8 @@ function animate() {
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
     }
+
+    controls.update();
 
     renderer.render( scene, camera );
 }
