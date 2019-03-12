@@ -41,7 +41,7 @@ function init() {
     controls.enableKeys = false;
     controls.minDistance = 10;
     controls.maxDistance = 500;
-    controls.autoRotateSpeed = 10.0;
+    controls.autoRotateSpeed = 8.0;
     controls.autoRotate = false;
 
     exampleSelect = document.getElementById("example-select");
