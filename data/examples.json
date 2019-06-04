@@ -72,12 +72,8 @@
                 "rule": "SFS"
             },
             {
-                "symbol": "L",
-                "rule": "['L]"
-            },
-            {
                 "symbol": "w",
-                "rule": "[&&&p'/W////W////W////W////W]"
+                "rule": "[&&&p/W////W////W////W////W]"
             },
             {
                 "symbol": "p",
@@ -85,7 +81,7 @@
             },
             {
                 "symbol": "W",
-                "rule": "['^F][&&&&P]"
+                "rule": "[^F][&&&&P]"
             }
         ]
     },
@@ -344,6 +340,60 @@
             {
                 "symbol": "G",
                 "rule": "+FF-G-G+F+FG+F-GG-F-G+FGG-F-GF+F+G-G-F+F+GG"
+            }
+        ]
+    },
+    {
+        "id": "woven-sphere",
+        "name": "Woven sphere",
+        "stepSize": 7,
+        "iterations": 6,
+        "rotationAngle": 40,
+        "baseAxiom": "F",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "F+F&F"
+            }
+        ]
+    },
+    {
+        "id": "fern",
+        "name": "Fern",
+        "stepSize": 1,
+        "iterations": 12,
+        "rotationAngle": 4,
+        "baseAxiom": "CCCF",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "[++++++++++++++CA]C^+C[--------------CB]C+CF"
+            },
+            {
+                "symbol": "A",
+                "rule": "[---------CC][+++++++++CC]C&&+A"
+            },
+            {
+                "symbol": "B",
+                "rule": "[---------CC][+++++++++CC]C&&-B"
+            },
+            {
+                "symbol": "C",
+                "rule": "G"
+            }
+        ]
+    },
+    {
+        "id": "tangled-strand",
+        "name": "Tangled strand",
+        "stepSize": 0.5,
+        "iterations": 8,
+        "rotationAngle": 90,
+        "baseAxiom": "F",
+        "ruleList": [
+            {
+                "symbol": "F",
+                "rule": "G+F&F-F"
             }
         ]
     }
