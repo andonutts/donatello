@@ -21,7 +21,7 @@ body {
 .author {
     margin-top: 0;
     margin-bottom: 0;
-    text-align: right;
+    padding-left: 8em;
     font-weight: bold;
 }
 
