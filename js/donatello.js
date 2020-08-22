@@ -50,7 +50,7 @@ function init() {
     // set default settings
     autoRotateCheckbox.checked = false;
     orthoCamCheckbox.checked = false;
-    document.getElementById("max-vertex-count").value = 1000000;
+    document.getElementById("max-vertex-count").value = 500000;
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
