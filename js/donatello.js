@@ -2,6 +2,7 @@ if ( !Detector.webgl ) {
     Detector.addGetWebGLMessage();
 }
 
+var donatello;
 var renderer, scene, activeCamera, controls;
 var perspectiveCam, orthographicCam;
 var orthoFrustumSize = 80;
@@ -14,6 +15,7 @@ var sidebar;
 var sidebarButton;
 var addRuleButton;
 var generateButton;
+var autoCenterButton;
 var autoRotateCheckbox;
 var orthoCamCheckbox;
 var timeout;
@@ -37,6 +39,7 @@ function init() {
     sidebarButton = document.getElementById("sidebar-button");
     addRuleButton = document.getElementById("add-rule-button");
     generateButton = document.getElementById("generate-button");
+    autoCenterButton = document.getElementById("auto-center-button");
     autoRotateCheckbox = document.getElementById("auto-rotate-checkbox");
     orthoCamCheckbox = document.getElementById("ortho-cam-checkbox");
     
@@ -44,9 +47,10 @@ function init() {
     sidebar.style.display = "block";
     sidebarButton.className = "visible";
 
-    // set initial camera settings
+    // set default settings
     autoRotateCheckbox.checked = false;
     orthoCamCheckbox.checked = false;
+    document.getElementById("max-vertex-count").value = 1000000;
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
@@ -282,6 +286,16 @@ function addEventListeners() {
 
     addRuleButton.addEventListener('click', addRule);
     generateButton.addEventListener('click', generateModel);
+    autoCenterButton.addEventListener('click', centerCamera);
+}
+
+function centerCamera() {
+    activeCamera.zoom = 1;
+    activeCamera.position.set( donatello.center.x + 50, donatello.center.y + 50, donatello.center.z + 50 );
+    activeCamera.updateProjectionMatrix();
+
+    controls.target = donatello.center.clone();
+    controls.update();
 }
 
 function generateModel() {
@@ -299,25 +313,19 @@ function generateModel() {
     var symbolList = document.querySelectorAll("input.symbol-input");
     var ruleList = document.querySelectorAll("input.rule-input");
 
+    var maxVertexCount = document.getElementById("max-vertex-count").value;
+
     for(var i = 0; i < symbolList.length; i++) {
         rules[symbolList[i].value] = ruleList[i].value;
     }
 
-    var turters = new Turtle(stepSize, rotationAngle);
+    donatello = new Turtle(stepSize, rotationAngle);
 
-    var commandEx = processLSystem(iterations, command, rules);
-    drawLSystem(turters, commandEx);
-    createGeometry(turters.vertices, turters.leafVertices, turters.petalVertices);
+    var commandEx = processLSystem(iterations, command, rules, maxVertexCount);
+    drawLSystem(donatello, commandEx, maxVertexCount);
+    createGeometry(donatello.vertices, donatello.leafVertices, donatello.petalVertices);
 
     renderer.setClearColor(canvasColor);
-
-    // reset the camera and camera controls
-    activeCamera.zoom = 1;
-    activeCamera.position.set( turters.center.x + 50, turters.center.y + 50, turters.center.z + 50 );
-    activeCamera.updateProjectionMatrix();
-
-    controls.target = turters.center.clone();
-    controls.update();
 }
 
 function createGeometry(lineVertices, leafVertices, petalVertices) {
@@ -553,7 +561,8 @@ function Turtle(stepSize, rotationAngle) {
     }
 }
 
-function processLSystem(iterations, command, rules) {
+function processLSystem(iterations, command, rules, maxDrawCount) {
+    var drawCount;
     var re = /[\+\-\&\^\\\/\|\[\]]/g;
     for(var i = 0; i < iterations; i++) {
         var buffer = "";
@@ -566,16 +575,22 @@ function processLSystem(iterations, command, rules) {
             }
         }
         command = buffer;
+        drawCount = (command.match(/[FG]/g) || []).length;
+        if (drawCount > maxDrawCount) {
+            break;
+        }
     }
     return command;
 }
 
-function drawLSystem(turtle, command) {
-    for(var i = 0; i < command.length; i++) {
+function drawLSystem(turtle, command, maxMoveCount) {
+    var moveCount = 0;
+    for(var i = 0; i < command.length && moveCount < maxMoveCount; i++) {
         switch(command.charAt(i)) {
             case "F":
             case "G":
                 turtle.moveForward();
+                moveCount++;
                 break;
             case "f":
                 turtle.moveForwardNoDraw();

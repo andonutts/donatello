@@ -18,6 +18,13 @@ body {
     margin-bottom: 0;
 }
 
+.author {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: right;
+    font-weight: bold;
+}
+
 .subtitle {
     margin-top: 0.5em;
 }
@@ -91,10 +98,15 @@ canvas {
     padding: 0.75em;
 }
 
-.menu-section, .footer {
+.menu-section, .collapsible-section, .footer {
     display: inline-block;
     width: 100%;
     margin: 0.5em 0;
+}
+
+.collapsible-section {
+    border: 1px solid #c0c0c0;
+    background: white;
 }
 
 .footer {
@@ -147,7 +159,7 @@ input[type="number"] {
 
 .parameter > input {
     float: right;
-    width: 3.0em;
+    width: 4.0em;
     /* -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box; */
@@ -210,7 +222,7 @@ input[type="number"] {
 .collapsible {
     line-height: 2.5em;
     width: 100%;
-    padding: 0;
+    padding: 0 0.5em;
     background: none;
     font-family: inherit;
     font-size: inherit;
@@ -235,11 +247,12 @@ input[type="number"] {
 
 .collapsible-content {
     display: none;
+    padding: 0.5em;
 }
 
 .palette-item {
     width: 100%;
-    height: 3em;
+    height: 2em;
     border: none;
     outline: none;
     background: none;
@@ -257,7 +270,8 @@ input[type="number"] {
     display: inline-block;
 }
 
-#generate-button {
+#generate-button,
+#auto-center-button {
     width: 100%;
     height: 3em;
     font-family: inherit;
@@ -268,6 +282,7 @@ input[type="number"] {
     text-decoration: none;
     cursor: pointer;
     outline: none;
+    margin: 0.2em 0;
 }
 
 .github-link {
