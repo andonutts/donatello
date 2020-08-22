@@ -679,6 +679,7 @@ function drawLSystem(turtle, command, maxMoveCount) {
                 break;
             case "K":
                 turtle.drawCube();
+                moveCount += 12;
                 break;
             default:
 
