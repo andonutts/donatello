@@ -2,7 +2,11 @@ if ( !Detector.webgl ) {
     Detector.addGetWebGLMessage();
 }
 
-var renderer, scene, camera, controls;
+var renderer, scene, activeCamera, controls;
+var perspectiveCam, orthographicCam;
+var orthoFrustumSize = 80;
+var aspect;
+
 var ruleListContainer;
 var exampleSelect;
 var examples;
@@ -11,6 +15,7 @@ var sidebarButton;
 var addRuleButton;
 var generateButton;
 var autoRotateCheckbox;
+var orthoCamCheckbox;
 var timeout;
 var palettes;
 var canvasColor = '#f2f2f2';
@@ -26,24 +31,6 @@ window.onload = function() {
 }
 
 function init() {
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight, false );
-    renderer.setClearColor(canvasColor);
-
-    document.getElementById("canvas-container").appendChild( renderer.domElement );
-
-    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
-    scene = new THREE.Scene();
-    
-    controls = new THREE.OrbitControls( camera, renderer.domElement );
-    controls.screenSpacePanning = true;
-    controls.enableKeys = false;
-    controls.minDistance = 10;
-    controls.maxDistance = 500;
-    controls.autoRotateSpeed = 8.0;
-    controls.autoRotate = false;
-
     exampleSelect = document.getElementById("example-select");
     ruleListContainer = document.getElementById("rule-list-container");
     sidebar = document.getElementById("sidebar");
@@ -51,17 +38,52 @@ function init() {
     addRuleButton = document.getElementById("add-rule-button");
     generateButton = document.getElementById("generate-button");
     autoRotateCheckbox = document.getElementById("auto-rotate-checkbox");
+    orthoCamCheckbox = document.getElementById("ortho-cam-checkbox");
     
     exampleSelect.value = "";
     sidebar.style.display = "block";
     sidebarButton.className = "visible";
+
+    // set initial camera settings
     autoRotateCheckbox.checked = false;
+    orthoCamCheckbox.checked = false;
+
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight, false );
+    renderer.setClearColor(canvasColor);
+
+    document.getElementById("canvas-container").appendChild( renderer.domElement );
+
+    initCameras();
+
+    if (orthoCamCheckbox.checked) {
+        activeCamera = orthographicCam;
+    } else {
+        activeCamera = perspectiveCam;
+    }
+
+    scene = new THREE.Scene();
+    
+    controls = new THREE.OrbitControls( activeCamera, renderer.domElement );
+    controls.screenSpacePanning = true;
+    controls.enableKeys = false;
+    controls.minDistance = 10;
+    controls.maxDistance = 500;
+    controls.autoRotateSpeed = 8.0;
+    controls.autoRotate = false;
     
     populateExamples();
     populatePalettes();
     addRule();
 
     addEventListeners();
+}
+
+function initCameras() {
+    aspect = renderer.domElement.clientWidth / renderer.domElement.clientHeight;
+    orthographicCam = new THREE.OrthographicCamera( orthoFrustumSize * aspect / -2, orthoFrustumSize * aspect / 2, orthoFrustumSize / 2, orthoFrustumSize / -2, 1, 1000 );
+    perspectiveCam = new THREE.PerspectiveCamera( 45, aspect, 1, 1000 );
 }
 
 function populateExamples() {
@@ -234,6 +256,30 @@ function addEventListeners() {
         }
     });
 
+    orthoCamCheckbox.addEventListener('click', function(event) {
+        // store the current camera's position
+        var position = activeCamera.position.clone();
+
+        aspect = renderer.domElement.clientWidth / renderer.domElement.clientHeight;
+        
+        if (orthoCamCheckbox.checked) {
+            orthographicCam.left = orthoFrustumSize * aspect / -2;
+            orthographicCam.right = orthoFrustumSize * aspect / 2;
+            orthographicCam.top = orthoFrustumSize / 2;
+            orthographicCam.bottom = orthoFrustumSize / -2;
+            orthographicCam.updateProjectionMatrix();
+            activeCamera = orthographicCam;
+        } else {
+            perspectiveCam.aspect = aspect;
+            perspectiveCam.updateProjectionMatrix();
+            activeCamera = perspectiveCam;
+        }
+        console.log(activeCamera.zoom);
+        activeCamera.position.copy(position);
+        controls.object = activeCamera;
+        controls.update();
+    });
+
     addRuleButton.addEventListener('click', addRule);
     generateButton.addEventListener('click', generateModel);
 }
@@ -266,7 +312,10 @@ function generateModel() {
     renderer.setClearColor(canvasColor);
 
     // reset the camera and camera controls
-    camera.position.set( turters.center.x + 50, turters.center.y + 50, turters.center.z + 50 );
+    activeCamera.zoom = 1;
+    activeCamera.position.set( turters.center.x + 50, turters.center.y + 50, turters.center.z + 50 );
+    activeCamera.updateProjectionMatrix();
+
     controls.target = turters.center.clone();
     controls.update();
 }
@@ -296,13 +345,23 @@ function animate() {
 
     if (resizeRendererToDisplaySize(renderer)) {
         const canvas = renderer.domElement;
-        camera.aspect = canvas.clientWidth / canvas.clientHeight;
-        camera.updateProjectionMatrix();
+        aspect = canvas.clientWidth / canvas.clientHeight;
+
+        if (orthoCamCheckbox.checked) {
+            orthographicCam.left = orthoFrustumSize * aspect / -2;
+            orthographicCam.right = orthoFrustumSize * aspect / 2;
+            orthographicCam.top = orthoFrustumSize / 2;
+            orthographicCam.bottom = orthoFrustumSize / -2;
+            orthographicCam.updateProjectionMatrix();
+        } else {
+            perspectiveCam.aspect = aspect;
+            perspectiveCam.updateProjectionMatrix();
+        }
     }
 
     controls.update();
 
-    renderer.render( scene, camera );
+    renderer.render( scene, activeCamera );
 }
 
 function Turtle(stepSize, rotationAngle) {
