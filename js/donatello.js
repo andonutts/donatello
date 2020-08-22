@@ -559,6 +559,55 @@ function Turtle(stepSize, rotationAngle) {
             pos.x, pos.y, pos.z,
         );
     }
+
+    this.drawCube = function() {
+        var pos = new THREE.Vector3(this.position.x, this.position.y, this.position.z);
+        var head = new THREE.Vector3(this.hlu.elements[0], this.hlu.elements[1], this.hlu.elements[2]);
+        var left = new THREE.Vector3(this.hlu.elements[3], this.hlu.elements[4], this.hlu.elements[5]);
+        var up = new THREE.Vector3(this.hlu.elements[6], this.hlu.elements[7], this.hlu.elements[8]);
+
+        var origin = pos.addScaledVector(head, -0.5 * stepSize).addScaledVector(left, 0.5 * stepSize).addScaledVector(up, -0.5 * stepSize);
+
+        var cubeVertices = [
+            origin,
+            origin.clone().addScaledVector(up, stepSize),
+            origin.clone().addScaledVector(left, -1 * stepSize),
+            origin.clone().addScaledVector(up, stepSize).addScaledVector(left, -1 * stepSize),
+            origin.clone().addScaledVector(head, stepSize),
+            origin.clone().addScaledVector(head, stepSize).addScaledVector(up, stepSize),
+            origin.clone().addScaledVector(head, stepSize).addScaledVector(left, -1 * stepSize),
+            origin.clone().addScaledVector(head, stepSize).addScaledVector(left, -1 * stepSize).addScaledVector(up, stepSize)
+        ]
+
+        this.vertices.push(
+            cubeVertices[0].x, cubeVertices[0].y, cubeVertices[0].z,
+            cubeVertices[1].x, cubeVertices[1].y, cubeVertices[1].z,
+            cubeVertices[1].x, cubeVertices[1].y, cubeVertices[1].z,
+            cubeVertices[3].x, cubeVertices[3].y, cubeVertices[3].z,
+            cubeVertices[3].x, cubeVertices[3].y, cubeVertices[3].z,
+            cubeVertices[2].x, cubeVertices[2].y, cubeVertices[2].z,
+            cubeVertices[2].x, cubeVertices[2].y, cubeVertices[2].z,
+            cubeVertices[0].x, cubeVertices[0].y, cubeVertices[0].z,
+
+            cubeVertices[0].x, cubeVertices[0].y, cubeVertices[0].z,
+            cubeVertices[4].x, cubeVertices[4].y, cubeVertices[4].z,
+            cubeVertices[1].x, cubeVertices[1].y, cubeVertices[1].z,
+            cubeVertices[5].x, cubeVertices[5].y, cubeVertices[5].z,
+            cubeVertices[2].x, cubeVertices[2].y, cubeVertices[2].z,
+            cubeVertices[6].x, cubeVertices[6].y, cubeVertices[6].z,
+            cubeVertices[3].x, cubeVertices[3].y, cubeVertices[3].z,
+            cubeVertices[7].x, cubeVertices[7].y, cubeVertices[7].z,
+
+            cubeVertices[4].x, cubeVertices[4].y, cubeVertices[4].z,
+            cubeVertices[5].x, cubeVertices[5].y, cubeVertices[5].z,
+            cubeVertices[5].x, cubeVertices[5].y, cubeVertices[5].z,
+            cubeVertices[7].x, cubeVertices[7].y, cubeVertices[7].z,
+            cubeVertices[7].x, cubeVertices[7].y, cubeVertices[7].z,
+            cubeVertices[6].x, cubeVertices[6].y, cubeVertices[6].z,
+            cubeVertices[6].x, cubeVertices[6].y, cubeVertices[6].z,
+            cubeVertices[4].x, cubeVertices[4].y, cubeVertices[4].z
+        )
+    }
 }
 
 function processLSystem(iterations, command, rules, maxDrawCount) {
@@ -627,6 +676,9 @@ function drawLSystem(turtle, command, maxMoveCount) {
                 break;
             case "P":
                 turtle.drawPetal();
+                break;
+            case "K":
+                turtle.drawCube();
                 break;
             default:
 

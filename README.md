@@ -24,6 +24,7 @@ f        move forward without drawing a line
 |        turn around
 L        generate a leaf
 P        generate a flower petal
+K        draw a cube
 ```
 
 ## References
