@@ -396,5 +396,19 @@
                 "rule": "G+F&F-F"
             }
         ]
+    },
+    {
+        "id": "cube-cloud",
+        "name": "Cube cloud",
+        "stepSize": 1,
+        "iterations": 6,
+        "rotationAngle": 30,
+        "baseAxiom": "A",
+        "ruleList": [
+            {
+                "symbol": "A",
+                "rule": "//ffffffff[Af&Af&Af&Af&AfK]"
+            }
+        ]
     }
 ]}

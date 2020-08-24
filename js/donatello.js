@@ -566,6 +566,10 @@ function Turtle(stepSize, rotationAngle) {
         var left = new THREE.Vector3(this.hlu.elements[3], this.hlu.elements[4], this.hlu.elements[5]);
         var up = new THREE.Vector3(this.hlu.elements[6], this.hlu.elements[7], this.hlu.elements[8]);
 
+        this.vertexSum.add(this.position);
+        this.vertexCount++;
+        this.center = this.vertexSum.clone().divideScalar(this.vertexCount);
+
         var origin = pos.addScaledVector(head, -0.5 * stepSize).addScaledVector(left, 0.5 * stepSize).addScaledVector(up, -0.5 * stepSize);
 
         var cubeVertices = [
