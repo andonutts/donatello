@@ -16,6 +16,7 @@ var sidebarButton;
 var addRuleButton;
 var generateButton;
 var autoCenterButton;
+var exportButton;
 var autoRotateCheckbox;
 var orthoCamCheckbox;
 var timeout;
@@ -39,6 +40,7 @@ function init() {
     sidebarButton = document.getElementById("sidebar-button");
     addRuleButton = document.getElementById("add-rule-button");
     generateButton = document.getElementById("generate-button");
+    exportButton = document.getElementById("export-button");
     autoCenterButton = document.getElementById("auto-center-button");
     autoRotateCheckbox = document.getElementById("auto-rotate-checkbox");
     orthoCamCheckbox = document.getElementById("ortho-cam-checkbox");
@@ -52,7 +54,7 @@ function init() {
     orthoCamCheckbox.checked = false;
     document.getElementById("max-vertex-count").value = 500000;
 
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer = new THREE.WebGLRenderer( { antialias: true, preserveDrawingBuffer: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight, false );
     renderer.setClearColor(canvasColor);
@@ -287,6 +289,16 @@ function addEventListeners() {
     addRuleButton.addEventListener('click', addRule);
     generateButton.addEventListener('click', generateModel);
     autoCenterButton.addEventListener('click', centerCamera);
+    exportButton.addEventListener('click', exportCanvas);
+}
+
+function exportCanvas() {
+    const canvas =  document.getElementsByTagName("canvas")[0]
+    const image = canvas.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = image.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+    a.download="image.png"
+    a.click();
 }
 
 function centerCamera() {

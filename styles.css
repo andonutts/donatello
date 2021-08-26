@@ -271,7 +271,8 @@ input[type="number"] {
 }
 
 #generate-button,
-#auto-center-button {
+#auto-center-button,
+#export-button {
     width: 100%;
     height: 3em;
     font-family: inherit;
